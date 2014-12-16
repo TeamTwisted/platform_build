@@ -39,7 +39,7 @@ PRODUCT_LOCALES := en_US
 PRODUCT_AAPT_CONFIG := normal
 
 # Get some sounds
-$(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackage13_48.mk)
+$(call inherit-product-if-exists, frameworks/base/data/sounds/AllAudioSlim.mk)
 
 # Get a list of languages.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/locales_full.mk)
