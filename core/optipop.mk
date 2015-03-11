@@ -101,7 +101,8 @@ LOCAL_DISABLE_STRICT := \
 	libart \
 	libart-compiler \
 	oatdump \
-	libart-disassembler
+	libart-disassembler \
+	linker
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
