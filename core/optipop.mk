@@ -369,7 +369,8 @@ LOCAL_DISABLE_GRAPHITE := \
 	libwebviewchromium_plat_support \
 	libjni_filtershow_filters \
 	fio \
-	libwebrtc_spl
+	libwebrtc_spl \
+	libpcap
 
 ifneq (1,$(words $(filter $(LOCAL_DISABLE_GRAPHITE), $(LOCAL_MODULE))))
 ifdef LOCAL_CONLYFLAGS
