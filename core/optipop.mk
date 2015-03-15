@@ -370,7 +370,8 @@ LOCAL_DISABLE_GRAPHITE := \
 	libjni_filtershow_filters \
 	fio \
 	libwebrtc_spl \
-	libpcap
+	libpcap \
+	libFraunhoferAAC
 
 ifneq (1,$(words $(filter $(LOCAL_DISABLE_GRAPHITE), $(LOCAL_MODULE))))
 ifdef LOCAL_CONLYFLAGS
