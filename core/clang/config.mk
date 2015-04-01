@@ -34,11 +34,12 @@ CLANG_CONFIG_EXTRA_ASFLAGS :=
 ifeq ($(USE_O3_OPTIMIZATIONS),true)
 CLANG_CONFIG_EXTRA_CFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option
 CLANG_CONFIG_EXTRA_CPPFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option -D__compiler_offsetof=__builtin_offsetof
+CLANG_CONFIG_EXTRA_LDFLAGS := -Wl,--sort-common
 else
 CLANG_CONFIG_EXTRA_CFLAGS :=
 CLANG_CONFIG_EXTRA_CPPFLAGS :=
-endif
 CLANG_CONFIG_EXTRA_LDFLAGS :=
+endif
 
 CLANG_CONFIG_EXTRA_CFLAGS += \
   -D__compiler_offsetof=__builtin_offsetof
