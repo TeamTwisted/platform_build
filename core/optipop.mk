@@ -78,7 +78,6 @@ LOCAL_DISABLE_STRICT := \
 	libldnhncr \
 	libqcomvisualizer \
 	libvisualizer \
-	libstlport \
 	libutils \
 	libandroidfw \
 	dnsmasq \
