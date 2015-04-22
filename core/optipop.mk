@@ -666,6 +666,7 @@ LOCAL_DISABLE_GRAPHITE := \
 	fio \
 	libwebrtc_spl \
 	libpcap \
+	libsigchain \
 	libFraunhoferAAC
 
 ifeq ($(filter $(LOCAL_DISABLE_GRAPHITE), $(LOCAL_MODULE)),)
