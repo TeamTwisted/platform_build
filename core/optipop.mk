@@ -282,6 +282,8 @@ endif
 ifeq ($(TARGET_DEVICE),shamu)
     LOCAL_O3_EXTRAS_FLAGS += -fno-tree-vectorize
 endif
+
+O3_FLAGS := -O3 $(LOCAL_O3_EXTRAS_FLAGS)
 ####################
 #  END  03  FLAGS  #
 ####################
