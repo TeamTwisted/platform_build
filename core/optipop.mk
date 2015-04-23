@@ -266,25 +266,31 @@ LOCAL_DISABLE_O3 := \
 	libexynosv4l2 \
 	bluetooth.default
 
+LOCAL_O3_EXTRAS_FLAGS :=
+
 ifeq ($(DISABLE_OPTIMIZATIONS_ON_CHROMIUM),true)
     LOCAL_DISABLE_O3 += $(WEBCHROMIUM_STATIC_LIBRARIES)
+endif
+
+ifeq ($(TARGET_DEVICE),shamu)
+    LOCAL_O3_EXTRAS_FLAGS += -fno-tree-vectorize -fno-inline-functions
 endif
 
 ifeq ($(filter $(LOCAL_DISABLE_O3), $(LOCAL_MODULE)),)
 ifdef LOCAL_CONLYFLAGS
 LOCAL_CONLYFLAGS += \
-	-O3
+	-O3 $(LOCAL_O3_EXTRAS_FLAGS)
 else
 LOCAL_CONLYFLAGS := \
-	-O3
+	-O3 $(LOCAL_O3_EXTRAS_FLAGS)
 endif
 
 ifdef LOCAL_CPPFLAGS
 LOCAL_CPPFLAGS += \
-	-O3
+	-O3 $(LOCAL_O3_EXTRAS_FLAGS)
 else
 LOCAL_CPPFLAGS := \
-	-O3
+	-O3 $(LOCAL_O3_EXTRAS_FLAGS)
 endif
 
 endif
