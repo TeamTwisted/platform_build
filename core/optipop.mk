@@ -266,14 +266,14 @@ LOCAL_DISABLE_O3 := \
 	libexynosv4l2 \
 	bluetooth.default
 
-LOCAL_O3_EXTRAS_FLAGS :=
+LOCAL_O3_EXTRAS_FLAGS := -fno-inline-functions
 
 ifeq ($(DISABLE_OPTIMIZATIONS_ON_CHROMIUM),true)
     LOCAL_DISABLE_O3 += $(WEBCHROMIUM_STATIC_LIBRARIES)
 endif
 
 ifeq ($(TARGET_DEVICE),shamu)
-    LOCAL_O3_EXTRAS_FLAGS += -fno-tree-vectorize -fno-inline-functions
+    LOCAL_O3_EXTRAS_FLAGS += -fno-tree-vectorize
 endif
 
 ifeq ($(filter $(LOCAL_DISABLE_O3), $(LOCAL_MODULE)),)
@@ -585,7 +585,6 @@ endif
 ifeq ($(FLOOP_NEST_OPTIMIZE),true)
 LOCAL_ENABLE_NEST := \
 	art \
-	libsigchain \
 	libart \
 	libart-compiler \
 	libartd \
@@ -622,6 +621,9 @@ LOCAL_ENABLE_NEST := \
 	bionic-benchmarks
 
 ifneq ($(filter $(LOCAL_ENABLE_NEST), $(LOCAL_MODULE)),)
+ifndef LOCAL_IS_HOST_MODULE
+ifeq ($(LOCAL_CLANG),)
+
 ifdef LOCAL_CONLYFLAGS
 LOCAL_CONLYFLAGS += \
 	-floop-nest-optimize
@@ -638,6 +640,8 @@ LOCAL_CPPFLAGS := \
 	-floop-nest-optimize
 endif
 
+endif
+endif
 endif
 endif
 #############################
