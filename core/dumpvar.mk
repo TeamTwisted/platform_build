@@ -82,5 +82,56 @@ $(info   HOST_OS_EXTRA=$(HOST_OS_EXTRA))
 $(info   HOST_BUILD_TYPE=$(HOST_BUILD_TYPE))
 $(info   BUILD_ID=$(BUILD_ID))
 $(info   OUT_DIR=$(OUT_DIR))
+
+
+ifdef USE_HOST_4_8
+$(info   USE_HOST_4_8=$(USE_HOST_4_8))
+else
+$(info   USE_HOST_4_8=false)
+endif
+ifdef USE_O3_OPTIMIZATIONS
+$(info   USE_O3_OPTIMIZATIONS=$(USE_O3_OPTIMIZATIONS))
+else
+$(info  USE_O3_OPTIMIZATIONS=false)
+endif
+ifeq (true,$(GRAPHITE_OPTS))
+$(info   GRAPHITE_OPTS=$(GRAPHITE_OPTS))
+else
+$(info   GRAPHITE_OPTS=false)
+endif
+ifdef STRICT_ALIASING
+$(info   STRICT_ALIASING=$(STRICT_ALIASING))
+else
+$(info   STRICT_ALIASING=false)
+endif
+ifdef KRAIT_TUNINGS
+$(info   KRAIT_TUNINGS=$(KRAIT_TUNINGS))
+else
+$(info   KRAIT_TUNINGS=false)
+endif
+ifdef ENABLE_GCCONLY
+$(info  ENABLE_GCCONLY=$(ENABLE_GCCONLY))
+else
+$(info   ENABLE_GCCONLY=false)
+endif
+ifdef TARGET_USE_PIPE
+$(info   TARGET_USE_PIPE=$(TARGET_USE_PIPE))
+else
+$(info   TARGET_USE_PIPE=false)
+endif
+ifdef FFAST_MATH
+$(info   FFAST_MATH=$(FFAST_MATH))
+else
+$(info   FFAST_MATH=false)
+endif
+
+ifneq (,$(GCC_OPTIMIZATION_LEVELS))
+$(info   UBER_AND_VERSION=$(UBER_AND_VERSION))
+$(info   UBER_KERNEL_VERSION=$(UBER_KERNEL_VERSION))
+ADDITIONAL_BUILD_PROPERTIES += \
+    ro.uber.android=$(UBER_AND_VERSION) \
+    ro.uber.kernel=$(UBER_KERNEL_VERSION) \
+    ro.uber.flags=$(GCC_OPTIMIZATION_LEVELS)
+endif
 $(info ============================================)
 endif
