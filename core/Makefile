@@ -1519,6 +1519,13 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
 
+ifeq ($(USE_PREBUILT_CHROMIUM),1)
+ifneq ($(PRODUCT_PREBUILT_WEBVIEWCHROMIUM),yes)
+	@echo -e ${CL_GRN}"Running Chromium prebuilt setup script..."${CL_RST}
+	$(hide) . $(TOPDIR)vendor/chroma/utils/chromium_prebuilt.sh $(TOP)
+endif
+endif
+
 endif    # recovery_fstab is defined
 endif    # TARGET_NO_KERNEL != true
 endif    # TARGET_DEVICE != generic*
