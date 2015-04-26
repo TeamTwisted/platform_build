@@ -459,6 +459,23 @@ endif
 #  END STRICT_ALIASING  #
 #########################
 
+    # SABERMOD_ARM_MODE
+    # The LOCAL_COMPILERS_WHITELIST will allow modules that absolutely have to be complied with thumb instructions,
+    # or the clang compiler, to skip replacing the default overrides.
+    ifeq ($(strip $(ENABLE_SABERMOD_ARM_MODE)),true)
+      LOCAL_COMPILERS_WHITELIST := \
+        libmincrypt \
+        libc++abi \
+        libjni_latinime_common_static \
+        libcompiler_rt \
+        libnativebridge \
+        libc++ \
+        libRSSupport \
+        netd \
+        libscrypt_static \
+        libRSCpuRef \
+        libRSDriver
+    endif
 
 #########################
 #    KRAIT_TUNINGS      #
@@ -677,7 +694,8 @@ LOCAL_DISABLE_GRAPHITE := \
 	libwebrtc_spl \
 	libpcap \
 	libsigchain \
-	libFraunhoferAAC
+	libFraunhoferAAC \
+libandroid_runtime
 
 ifeq ($(filter $(LOCAL_DISABLE_GRAPHITE), $(LOCAL_MODULE)),)
 ifdef LOCAL_CONLYFLAGS
