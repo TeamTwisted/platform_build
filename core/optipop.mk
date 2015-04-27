@@ -264,7 +264,11 @@ LOCAL_DISABLE_O3 := \
 	libaudioflinger \
 	libbinder \
 	libexynosv4l2 \
-	bluetooth.default
+	bluetooth.default \
+        $(WEBCHROMIUM_STATIC_LIBRARIES) \
+	libwebviewchromium \
+	libwebviewchromium_loader \
+	libwebviewchromium_plat_support
 
 LOCAL_O3_EXTRAS_FLAGS := -fno-inline-functions
 
