@@ -254,6 +254,7 @@ WEBCHROMIUM_STATIC_LIBRARIES := \
 ifeq ($(USE_O3_OPTIMIZATIONS),true)
 
 LOCAL_DISABLE_O3 := \
+        libc_dns \
 	libstagefright \
 	libstagefright_soft_aacdec \
 	libstagefright_id3 \
