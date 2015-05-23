@@ -73,13 +73,15 @@ ifneq ($(filter arm arm64,$(TARGET_ARCH)),)
       else
         LOCAL_CFLAGS := -fsanitize=leak
       endif
-      ifneq (1,$(words $(filter libwebviewchromium libc_netbsd,$(LOCAL_MODULE))))
-        LOCAL_CFLAGS += -lgomp -lgcc -fopenmp
-        ifdef LOCAL_LDLIBS
-          LOCAL_LDLIBS += -lgomp -lgcc
-        else
-          LOCAL_LDLIBS := -lgomp -lgcc
-        endif
+      ifneq ($(strip $(TARGET_ARCH)),arm64)
+        ifneq (1,$(words $(filter libwebviewchromium libc_netbsd,$(LOCAL_MODULE))))
+          LOCAL_CFLAGS += -lgomp -lgcc -fopenmp
+          ifdef LOCAL_LDLIBS
+            LOCAL_LDLIBS += -lgomp -lgcc
+          else
+            LOCAL_LDLIBS := -lgomp -lgcc
+          endif
+       endif
       endif
     endif
   endif
