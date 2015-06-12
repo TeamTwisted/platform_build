@@ -19,9 +19,8 @@
 
 PRODUCT_PACKAGES := \
     Dialer \
-    Mms \
     Stk \
-    rild \
-    CellBroadcastReceiver
+    rild
+
 
 PRODUCT_COPY_FILES := \

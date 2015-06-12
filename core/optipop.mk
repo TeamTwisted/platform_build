@@ -247,6 +247,109 @@ WEBCHROMIUM_STATIC_LIBRARIES := \
     third_party_WebKit_public_blink_gyp \
     third_party_WebKit_public_blink_resources_gyp \
 
+####################
+#      ARM_MODE     #
+####################
+
+ifeq ($(strip $(ENABLE_ARM_MODE)),true)
+LOCAL_BLUETOOTH_BLUEDROID := \
+  bluetooth.default \
+  libbt-brcm_stack \
+  audio.a2dp.default \
+  libbt-brcm_gki \
+  libbt-utils \
+  libbt-qcom_sbc_decoder \
+  libbt-brcm_bta \
+  bdt \
+  bdtest \
+  libbt-hci \
+  libosi \
+  ositests \
+  libbt-vendor \
+  libbluetooth_jni
+
+LOCAL_ARM_COMPILERS_WHITELIST_BASE := \
+  libmincrypt \
+  libc++abi \
+  libjni_latinime_common_static \
+  libcompiler_rt \
+  libnativebridge \
+  libc++ \
+  libRSSupport \
+  netd \
+  libscrypt_static \
+  libRSCpuRef \
+  libRSDriver \
+  $(LOCAL_BLUETOOTH_BLUEDROID)
+
+ ifndef LOCAL_ARM_COMPILERS_WHITELIST
+ LOCAL_ARM_COMPILERS_WHITELIST := \
+   $(LOCAL_ARM_COMPILERS_WHITELIST_BASE)
+ else
+ LOCAL_ARM_COMPILERS_WHITELIST += \
+   $(LOCAL_ARM_COMPILERS_WHITELIST_BASE)
+ endif
+
+ ifeq ($(strip $(TARGET_ARCH)),arm)
+  ifeq ($(strip $(ENABLE_ARM_MODE)),true)
+    ifneq ($(strip $(LOCAL_IS_HOST_MODULE)),true)
+      ifneq (1,$(words $(filter libLLVM% $(LOCAL_ARM_COMPILERS_WHITELIST),$(LOCAL_MODULE))))
+        ifneq ($(filter arm thumb,$(LOCAL_ARM_MODE)),)
+          LOCAL_TMP_ARM_MODE := $(filter arm thumb,$(LOCAL_ARM_MODE))
+          LOCAL_ARM_MODE := $(LOCAL_TMP_ARM_MODE)
+          ifeq ($(strip $(LOCAL_ARM_MODE)),arm)
+            ifdef LOCAL_CFLAGS
+              LOCAL_CFLAGS += -marm
+            else
+              LOCAL_CFLAGS := -marm
+            endif
+            ifeq ($(strip $(LOCAL_CLANG)),true)
+              LOCAL_CLANG := false
+            endif
+          endif
+          ifeq ($(strip $(LOCAL_ARM_MODE)),thumb)
+            ifdef LOCAL_CFLAGS
+              LOCAL_CFLAGS += -mthumb-interwork
+            else
+              LOCAL_CFLAGS := -mthumb-interwork
+            endif
+          endif
+        else
+          LOCAL_ARM_MODE := arm
+          ifdef LOCAL_CFLAGS
+           LOCAL_CFLAGS += -marm
+          else
+            LOCAL_CFLAGS := -marm
+          endif
+        endif
+        ifeq ($(strip $(LOCAL_CLANG)),true)
+            LOCAL_CLANG := false
+        endif
+      else
+        ifndef LOCAL_ARM_MODE
+          LOCAL_ARM_MODE := thumb
+        endif
+        ifeq ($(strip $(LOCAL_ARM_MODE)),arm)
+          ifdef LOCAL_CFLAGS
+          LOCAL_CFLAGS += -marm
+          else
+           LOCAL_CFLAGS := -marm
+          endif
+        endif
+        ifeq ($(strip $(LOCAL_ARM_MODE)),thumb)
+          ifdef LOCAL_CFLAGS
+           LOCAL_CFLAGS += -mthumb-interwork
+          else
+           LOCAL_CFLAGS := -mthumb-interwork
+          endif
+        endif
+      endif
+    endif
+  endif
+ endif
+endif
+
+
 
 ####################
 #      O3 FLAG     #
@@ -501,6 +604,26 @@ GCC_ONLY := \
 #     END GCC ONLY      #
 #########################
 
+# ENABLE_SANITIZE
+ifeq ($(ENABLE_SANITIZE),true)
+ ifneq ($(filter arm arm64,$(TARGET_ARCH)),)
+  ifneq ($(strip $(LOCAL_IS_HOST_MODULE)),true)
+   ifneq ($(strip $(LOCAL_CLANG)),true)
+    ifdef LOCAL_CONLYFLAGS
+    LOCAL_CONLYFLAGS += -fsanitize=leak
+    else
+    LOCAL_CONLYFLAGS := -fsanitize=leak
+    endif
+    ifdef LOCAL_CPPFLAGS
+    LOCAL_CPPFLAGS += -fsanitize=leak
+    else
+    LOCAL_CPPFLAGS := -fsanitize=leak
+    endif
+   endif
+  endif
+ endif
+endif
+
 ##########################
 #  FLOOP_NEST_OPTIMIZE   #
 ########################## 
@@ -544,6 +667,31 @@ LOCAL_ENABLE_NEST := \
 #############################
 #  END FLOOP_NEST_OPTIMIZE  #
 #############################
+
+# ENABLE_GOMP
+ifeq ($(ENABLE_GOMP),true)
+LOCAL_DISABLE_GOMP := \
+       camera.msm8084 \
+       libc_netbsd
+ ifneq ($(filter arm arm64,$(TARGET_ARCH)),)
+  ifneq ($(strip $(LOCAL_IS_HOST_MODULE)),true)
+   ifneq ($(strip $(LOCAL_CLANG)),true)
+    ifeq ($(filter $(LOCAL_DISABLE_GOMP), $(LOCAL_MODULE)),)
+     ifdef LOCAL_CONLYFLAGS
+     LOCAL_CONLYFLAGS += -fopenmp
+     else
+     LOCAL_CONLYFLAGS := -fopenmp
+     endif
+     ifdef LOCAL_CPPFLAGS
+     LOCAL_CPPFLAGS += -fopenmp
+     else
+     LOCAL_CPPFLAGS := -fopenmp
+     endif
+    endif
+   endif
+  endif
+ endif
+endif
 
 #############################
 #       GRAPHITE_OPTS       #
