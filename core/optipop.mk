@@ -350,6 +350,24 @@ LOCAL_ARM_COMPILERS_WHITELIST_BASE := \
 endif
 
 
+# ENABLE_PTHREAD
+ifeq ($(ENABLE_PTHREAD),true)
+LOCAL_DISABLE_PTHREAD := \
+       libc_netbsd
+
+ ifeq ($(filter $(LOCAL_DISABLE_PTHREAD), $(LOCAL_MODULE)),)
+  ifdef LOCAL_CONLYFLAGS
+  LOCAL_CONLYFLAGS += -pthread
+  else
+  LOCAL_CONLYFLAGS := -pthread
+  endif
+  ifdef LOCAL_CPPFLAGS
+  LOCAL_CPPFLAGS += -pthread
+  else
+  LOCAL_CPPFLAGS := -pthread
+  endif
+ endif
+endif
 
 ####################
 #      O3 FLAG     #

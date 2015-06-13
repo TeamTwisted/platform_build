@@ -129,6 +129,31 @@ $(info   FFAST_MATH=$(FFAST_MATH))
 else
 $(info   FFAST_MATH=false)
 endif
+ifdef FLOOP_NEST_OPTIMIZE
+$(info   FLOOP_NEST_OPTIMIZE=$(FLOOP_NEST_OPTIMIZE))
+else
+$(info   FLOOP_NEST_OPTIMIZE=false)
+endif
+ifdef ENABLE_GOMP
+$(info   ENABLE_GOMP=$(ENABLE_GOMP))
+else
+$(info   ENABLE_GOMP=false)
+endif
+ifdef ENABLE_SANITIZE
+$(info   ENABLE_SANITIZE=$(ENABLE_SANITIZE))
+else
+$(info   ENABLE_SANITIZE=false)
+endif
+ifdef ENABLE_ARM_MODE
+$(info   ENABLE_ARM_MODE=$(ENABLE_ARM_MODE))
+else
+$(info   ENABLE_ARM_MODE=false)
+endif
+ifdef ENABLE_PTHREAD
+$(info   ENABLE_PTHREAD=$(ENABLE_PTHREAD))
+else
+$(info   ENABLE_PTHREAD=false)
+endif
 
 ifneq (,$(GCC_OPTIMIZATION_LEVELS))
 $(info   UBER_AND_VERSION=$(UBER_AND_VERSION))
