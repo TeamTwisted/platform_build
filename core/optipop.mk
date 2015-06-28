@@ -734,7 +734,8 @@ LOCAL_DISABLE_GRAPHITE := \
     libwebrtc_spl \
     libpcap \
     libsigchain \
-    libFraunhoferAAC
+    libFraunhoferAAC \
+    libncurses
 
 GRAPHITE_FLAGS := \
     -fgraphite \
