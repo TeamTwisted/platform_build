@@ -19,7 +19,6 @@
 
 PRODUCT_PACKAGES := \
     Dialer \
-    Mms \
     Stk \
     rild \
     CellBroadcastReceiver
