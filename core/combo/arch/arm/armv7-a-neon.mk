@@ -12,12 +12,24 @@ CORTEX_A15_TYPE := \
 	cortex-a15 \
 	krait \
 	denver
+else
+CORTEX_A15_TYPE := \
+	cortex-a15 \
+	krait
+endif
 
 ifneq (,$(filter $(CORTEX_A15_TYPE),$(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)))
 	# TODO: krait and denver is not a cortex-a15, we set the variant to cortex-a15 so that
 	#       hardware divide operations are generated for arm binaries. This should be removed and a
 	#       krait CPU variant added to GCC. For clang we specify -mcpu for krait in
 	#       core/clang/arm.mk.
+ifneq ($(strip $(USE_GCC_DEFAULTS)),true)
+	arch_variant_cflags := -mcpu=cortex-a15
+else
+	arch_variant_cflags := -march=armv7-a -mtune=cortex-a15
+endif
+else
+ifeq (denver,$(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT))
 	arch_variant_cflags := -mcpu=cortex-a15
 else
 ifeq ($(strip $(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)),cortex-a8)
