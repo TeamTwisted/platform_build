@@ -66,6 +66,8 @@ PRODUCT_PACKAGES += \
     e2fsck \
     resize2fs \
     mms-common \
+    libwebviewchromium_plat_support \
+    libwebviewchromium_loader \
     screencap \
     sensorservice \
     telephony-common \
