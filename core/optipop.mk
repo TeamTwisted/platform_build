@@ -504,7 +504,8 @@ LOCAL_DISABLE_GRAPHITE := \
     libsigchain \
     libFraunhoferAAC \
     libncurses \
-    mdnsd
+    mdnsd \
+    libft2
 
 GRAPHITE_FLAGS := \
     -fgraphite \
