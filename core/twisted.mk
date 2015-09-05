@@ -290,7 +290,9 @@ LOCAL_DISABLE_STRICT := \
     libjavacore \
     camera.msm8084 \
     libmmcamera_interface \
-    camera.hammerhead
+    camera.hammerhead \
+    mdnsd \
+    libvterm
 
  ifneq ($(filter $(LOCAL_DISABLE_STRICT),$(LOCAL_MODULE)),)
   ifdef LOCAL_CONLYFLAGS
@@ -615,7 +617,10 @@ ifeq ($(GRAPHITE_OPTS),true)
     libwebrtc_apm_utility \
     liblog \
     logcat \
-    logd
+    logd \
+    libncurses \
+    mdnsd \
+    libft2
 
    ifeq ($(filter $(LOCAL_DISABLE_GRAPHITE), $(LOCAL_MODULE)),)
     ifdef LOCAL_CONLYFLAGS
