@@ -530,41 +530,42 @@ endif
 # FLOOP_NEST_OPTIMIZE 
 ifeq ($(FLOOP_NEST_OPTIMIZE),true)
 LOCAL_ENABLE_NEST := \
-	art \
-	libart \
-	libart-compiler \
-	libartd \
-	libartd-compiler \
-	libart-disassembler \
-	libartd-disassembler \
-	core.art-host \
-	core.art \
-	cpplint-art-phony \
-	libnativebridgetest \
-	libarttest \
-	art-run-tests \
-	libart-gtest \
-	libc \
-	libc_bionic \
-	libc_gdtoa \
-	libc_netbsd \
-	libc_freebsd \
-	libc_dns \
-	libc_openbsd \
-	libc_cxa \
-	libc_syscalls \
-	libc_aeabi \
-	libc_common \
-	libc_nomalloc \
-	libc_malloc \
-	libc_stack_protector \
-	libc_tzcode \
-	libstdc++ \
-	linker \
-	libdl \
-	libm \
-	tzdata \
-	bionic-benchmarks
+    art \
+    libsigchain \
+    libart \
+    libart-compiler \
+    libartd \
+    libartd-compiler \
+    libart-disassembler \
+    libartd-disassembler \
+    core.art-host \
+    core.art \
+    cpplint-art-phony \
+    libnativebridgetest \
+    libarttest \
+    art-run-tests \
+    libart-gtest \
+    libc \
+    libc_bionic \
+    libc_gdtoa \
+    libc_netbsd \
+    libc_freebsd \
+    libc_dns \
+    libc_openbsd \
+    libc_cxa \
+    libc_syscalls \
+    libc_aeabi \
+    libc_common \
+    libc_nomalloc \
+    libc_malloc \
+    libc_stack_protector \
+    libc_tzcode \
+    libstdc++ \
+    linker \
+    libdl \
+    libm \
+    tzdata \
+    bionic-benchmarks
 
  ifneq ($(filter $(LOCAL_ENABLE_NEST), $(LOCAL_MODULE)),)
   ifndef LOCAL_IS_HOST_MODULE
@@ -675,39 +676,13 @@ endif
 # FORCE FFAST-MATH
 ifeq ($(FFAST_MATH),true)
 LOCAL_FORCE_FFAST_MATH := \
-	art \
-	libart \
-	libart-compiler \
-	libartd \
-	libartd-compiler \
-	libart-disassembler \
-	libartd-disassembler \
-	core.art-host \
-	core.art \
-	cpplint-art-phony \
-	libnativebridgetest \
-	libarttest \
-	art-run-tests \
-	libart-gtest \
-	libc \
-	libc_bionic \
-	libc_netbsd \
-	libc_dns \
-	libc_openbsd \
-	libc_cxa \
-	libc_syscalls \
-	libc_aeabi \
-	libc_common \
-	libc_nomalloc \
-	libc_malloc \
-	libc_stack_protector \
-	libc_tzcode \
-	libstdc++ \
-	linker \
-	libdl \
-	libm \
-	tzdata \
-	bionic-benchmarks \
+    libskia \
+    libGLESv2 \
+    libEGL \
+    libGLESv1_CM \
+    libGLES_android \
+    skia_skia_gyp \
+    skia_skia_library_gyp \
     libui \
     libgui \
     libhwui \
@@ -717,11 +692,8 @@ LOCAL_FORCE_FFAST_MATH := \
     third_party_WebKit_Source_core_webcore_html_gyp \
     third_party_WebKit_Source_core_webcore_remaining_gy \
     third_party_WebKit_Source_web_blink_web_gyp \
-    gpu_gles2_c_lib_gyp \
     libfilterfw_jni \
-    libfilterfw_native \
-    libandroid_runtime \
-    cc_cc_gyp
+    libfilterfw_native
 
 LOCAL_DISABLE_SINGLE_PRECISION := \
 
