@@ -621,7 +621,24 @@ ifeq ($(GRAPHITE_OPTS),true)
     logd \
     libncurses \
     mdnsd \
-    libft2
+    libft2 \
+libminzip \
+init \
+libstlport \
+libnetutils \
+libandroidfw \
+libwebp-decode \
+libwebp-encode \
+libxml2 \
+dhcpcd \
+clatd \
+audio.r_submix.default \
+libstagefright_m4vh263dec \
+libstagefright_m4vh263enc \
+libwebrtc_aec \
+busybox \
+updater \
+libwebrtc_apm
 
    ifeq ($(filter $(LOCAL_DISABLE_GRAPHITE), $(LOCAL_MODULE)),)
     ifdef LOCAL_CONLYFLAGS
