@@ -18,7 +18,6 @@ Invoke ". build/envsetup.sh" from your shell to add the following functions to y
 - sgrep:   Greps on all local source files.
 - godir:   Go to the directory containing a file.
 - reposync: Parallel repo sync using ionice and SCHED_BATCH
-- repolastsync: Prints date and time of last repo sync.
 
 Look at the source to view more functions. The complete list is:
 EOF
@@ -1695,7 +1694,7 @@ function mka() {
             make -j `sysctl hw.ncpu|cut -d" " -f2` "$@"
             ;;
         *)
-            schedtool -B -n 1 -e ionice -n 1 make -j `cat /proc/cpuinfo | grep "^processor" | wc -l` "$@"
+            schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
             ;;
     esac
 }
