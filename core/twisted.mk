@@ -118,7 +118,21 @@ LOCAL_ARM_COMPILERS_WHITELIST_BASE := \
  endif
 endif
 
-
+# IPA Analyser Optimizations
+ifeq (,$(filter true,$(LOCAL_CLANG)))
+  ifneq (1,$(words $(filter $(LOCAL_DISABLE_IPA),$(LOCAL_MODULE))))
+    ifdef LOCAL_CFLAGS
+      LOCAL_CFLAGS += -fipa-sra -fipa-pta -fipa-cp -fipa-cp-clone
+    else
+      LOCAL_CFLAGS := -fipa-sra -fipa-pta -fipa-cp -fipa-cp-clone
+    endif
+    ifdef LOCAL_LDFLAGS
+      LOCAL_LDFLAGS += -fipa-sra -fipa-pta -fipa-cp -fipa-cp-clone
+    else
+      LOCAL_LDFLAGS := -fipa-sra -fipa-pta -fipa-cp -fipa-cp-clone
+    endif
+  endif
+endif
 
 # TARGET_USE_PIPE
 ifeq ($(TARGET_USE_PIPE),true)
@@ -288,8 +302,13 @@ LOCAL_DISABLE_STRICT := \
     logd \
     linker \
     libjavacore \
-    camera.msm8084 \
+    libqomx_core \
+    libmm-qcamera \
     libmmcamera_interface \
+    libmmjpeg_interface \
+    camera.msm8084 \
+    mm-jpeg-interface-test \
+    mm-qcamera-app \
     camera.hammerhead \
     mdnsd \
     libvterm
@@ -338,9 +357,16 @@ ifeq ($(KRAIT_TUNINGS),true)
 	libwebviewchromium \
 	libwebviewchromium_loader \
 	libwebviewchromium_plat_support \
-    liblog \
-    logcat \
-    logd
+	libqomx_core \
+	libmm-qcamera \
+	libmmcamera_interface \
+	libmmjpeg_interface \
+	camera.msm8084 \
+	mm-jpeg-interface-test \
+	mm-qcamera-app \
+	liblog \
+	logcat \
+	logd
 
   ifeq ($(filter $(LOCAL_DISABLE_KRAIT), $(LOCAL_MODULE)),)
    ifdef LOCAL_CONLYFLAGS
@@ -363,11 +389,17 @@ endif
 ifeq ($(ENABLE_PTHREAD),true)
 LOCAL_DISABLE_PTHREAD := \
     $(LOCAL_BLUETOOTH_BLUEDROID) \
-    camera.msm8084 \
-    libc_netbsd \
-    liblog \
-    logcat \
-    logd
+	libqomx_core \
+	libmm-qcamera \
+	libmmcamera_interface \
+	libmmjpeg_interface \
+	camera.msm8084 \
+	mm-jpeg-interface-test \
+	mm-qcamera-app \
+	libc_netbsd \
+	liblog \
+	logcat \
+	logd
 
  ifeq ($(filter $(LOCAL_DISABLE_PTHREAD), $(LOCAL_MODULE)),)
   ifdef LOCAL_CONLYFLAGS
@@ -411,11 +443,17 @@ endif
 ifeq ($(ENABLE_GOMP),true)
 LOCAL_DISABLE_GOMP := \
     $(LOCAL_BLUETOOTH_BLUEDROID) \
-    camera.msm8084 \
-    libc_netbsd \
-    liblog \
-    logcat \
-    logd
+	libqomx_core \
+	libmm-qcamera \
+	libmmcamera_interface \
+	libmmjpeg_interface \
+	camera.msm8084 \
+	mm-jpeg-interface-test \
+	mm-qcamera-app \
+	libc_netbsd \
+	liblog \
+	logcat \
+	logd
 
  ifneq ($(filter arm arm64,$(TARGET_ARCH)),)
   ifneq ($(strip $(LOCAL_IS_HOST_MODULE)),true)
@@ -449,9 +487,16 @@ ifeq ($(ENABLE_GCCONLY),true)
 	libwebviewchromium \
 	libwebviewchromium_loader \
 	libwebviewchromium_plat_support \
-    liblog \
-    logcat \
-    logd
+	libqomx_core \
+	libmm-qcamera \
+	libmmcamera_interface \
+	libmmjpeg_interface \
+	camera.msm8084 \
+	mm-jpeg-interface-test \
+	mm-qcamera-app \
+	liblog \
+	logcat \
+	logd
 
     ifeq ($(filter $(LOCAL_DISABLE_GCCONLY), $(LOCAL_MODULE)),)
     ifdef LOCAL_CONLYFLAGS
@@ -530,42 +575,42 @@ endif
 # FLOOP_NEST_OPTIMIZE 
 ifeq ($(FLOOP_NEST_OPTIMIZE),true)
 LOCAL_ENABLE_NEST := \
-    art \
+	art \
     libsigchain \
-    libart \
-    libart-compiler \
-    libartd \
-    libartd-compiler \
-    libart-disassembler \
-    libartd-disassembler \
-    core.art-host \
-    core.art \
-    cpplint-art-phony \
-    libnativebridgetest \
-    libarttest \
-    art-run-tests \
-    libart-gtest \
-    libc \
-    libc_bionic \
-    libc_gdtoa \
-    libc_netbsd \
-    libc_freebsd \
-    libc_dns \
-    libc_openbsd \
-    libc_cxa \
-    libc_syscalls \
-    libc_aeabi \
-    libc_common \
-    libc_nomalloc \
-    libc_malloc \
-    libc_stack_protector \
-    libc_tzcode \
-    libstdc++ \
-    linker \
-    libdl \
-    libm \
-    tzdata \
-    bionic-benchmarks
+	libart \
+	libart-compiler \
+	libartd \
+	libartd-compiler \
+	libart-disassembler \
+	libartd-disassembler \
+	core.art-host \
+	core.art \
+	cpplint-art-phony \
+	libnativebridgetest \
+	libarttest \
+	art-run-tests \
+	libart-gtest \
+	libc \
+	libc_bionic \
+	libc_gdtoa \
+	libc_netbsd \
+	libc_freebsd \
+	libc_dns \
+	libc_openbsd \
+	libc_cxa \
+	libc_syscalls \
+	libc_aeabi \
+	libc_common \
+	libc_nomalloc \
+	libc_malloc \
+	libc_stack_protector \
+	libc_tzcode \
+	libstdc++ \
+	linker \
+	libdl \
+	libm \
+	tzdata \
+	bionic-benchmarks
 
  ifneq ($(filter $(LOCAL_ENABLE_NEST), $(LOCAL_MODULE)),)
   ifndef LOCAL_IS_HOST_MODULE
@@ -592,10 +637,10 @@ ifeq ($(GRAPHITE_OPTS),true)
  ifndef LOCAL_IS_HOST_MODULE
   ifeq ($(LOCAL_CLANG),)
   LOCAL_DISABLE_GRAPHITE := \
-    $(LOCAL_BLUETOOTH_BLUEDROID) \
-    libhwui \
-    libandroid_runtime \
-    libsigchain \
+	$(LOCAL_BLUETOOTH_BLUEDROID) \
+	libhwui \
+	libandroid_runtime \
+	libsigchain \
 	libunwind \
 	libFFTEm \
 	libicui18n \
@@ -606,7 +651,7 @@ ifeq ($(GRAPHITE_OPTS),true)
 	libstagefright_amrwbenc \
 	libpdfium \
 	libpdfiumcore \
-    libunwind \
+	libunwind \
 	libwebviewchromium \
 	libwebviewchromium_loader \
 	libwebviewchromium_plat_support \
@@ -615,7 +660,14 @@ ifeq ($(GRAPHITE_OPTS),true)
 	libwebrtc_spl \
 	libpcap \
 	libFraunhoferAAC \
-    libwebrtc_apm_utility \
+	libwebrtc_apm_utility \
+	libqomx_core \
+	libmm-qcamera \
+	libmmcamera_interface \
+	libmmjpeg_interface \
+	camera.msm8084 \
+	mm-jpeg-interface-test \
+	mm-qcamera-app \
     liblog \
     logcat \
     logd \
