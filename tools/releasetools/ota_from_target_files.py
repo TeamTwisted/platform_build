@@ -561,9 +561,9 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #       set up system to update recovery partition on first boot
   #    complete script normally
   #    (allow recovery to mark itself finished and reboot)
+  #recovery_img = common.GetBootableImage("recovery.img", "recovery.img",
+  #                                       OPTIONS.input_tmp, "RECOVERY")
 
-#  recovery_img = common.GetBootableImage("recovery.img", "recovery.img",
-#                                         OPTIONS.input_tmp, "RECOVERY")
   if OPTIONS.two_step:
     if not OPTIONS.info_dict.get("multistage_support", None):
       assert False, "two-step packages not supported by this build"
@@ -1253,6 +1253,7 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
 #  target_recovery = common.GetBootableImage(
 #      "/tmp/recovery.img", "recovery.img", OPTIONS.target_tmp, "RECOVERY")
 #  updating_recovery = (source_recovery.data != target_recovery.data)
+   updating_recovery = false
 
   # Here's how we divide up the progress bar:
   #  0.1 for verifying the start state (PatchCheck calls)
