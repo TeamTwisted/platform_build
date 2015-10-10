@@ -27,7 +27,6 @@ PRODUCT_PACKAGES := \
 	Gallery \
 	GestureBuilder \
 	Launcher3 \
-	LegacyCamera \
 	librs_jni \
 	LiveWallpapersPicker \
 	rild \
