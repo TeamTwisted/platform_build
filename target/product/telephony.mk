@@ -22,6 +22,7 @@ PRODUCT_PACKAGES := \
     CellBroadcastReceiver \
     Dialer \
     CallLogBackup \
+    InCallUI \
     Stk \
     rild
 
