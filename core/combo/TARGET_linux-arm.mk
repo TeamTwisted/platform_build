@@ -67,10 +67,13 @@ $(combo_2nd_arch_prefix)TARGET_STRIP := $($(combo_2nd_arch_prefix)TARGET_TOOLS_P
 
 $(combo_2nd_arch_prefix)TARGET_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
 
-$(combo_2nd_arch_prefix)TARGET_arm_CFLAGS :=    -O2 \
-                        -fomit-frame-pointer \
-                        -fstrict-aliasing    \
-                        -funswitch-loops
+ifeq ($(USE_O3_OPTIMIZATIONS),true)
+$(combo_2nd_arch_prefix)TARGET_arm_CFLAGS := -O3 -DNDEBUG -fomit-frame-pointer -funswitch-loops -fno-tree-vectorize -fno-inline-functions -ffunction-sections -fdata-sections -frename-registers -fomit-frame-pointer -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized
+$(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS := -Os -DNDEBUG -fomit-frame-pointer -fno-strict-aliasing -fno-tree-vectorize -fno-inline-functions -fno-unswitch-loops -ffunction-sections -fdata-sections -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-clobbered -Wno-strict-overflow
+else
+$(combo_2nd_arch_prefix)TARGET_arm_CFLAGS := -O2 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops
+$(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS := -Os -fomit-frame-pointer -fno-strict-aliasing
+endif
 
 # Modules can choose to compile some source as thumb.
 $(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS :=  -mthumb \
@@ -144,14 +147,13 @@ $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += -mthumb-interwork
 
 $(combo_2nd_arch_prefix)TARGET_GLOBAL_CPPFLAGS += -fvisibility-inlines-hidden
 
-# More flags/options can be added here
-$(combo_2nd_arch_prefix)TARGET_RELEASE_CFLAGS := \
-			-DNDEBUG \
-			-g \
-			-Wstrict-aliasing=2 \
-			-fgcse-after-reload \
-			-frerun-cse-after-loop \
-			-frename-registers
+ifeq ($(USE_O3_OPTIMIZATIONS),true)
+$(combo_2nd_arch_prefix)TARGET_GLOBAL_CPPFLAGS += -fvisibility-inlines-hidden -O3 -DNDEBUG -ffunction-sections -fdata-sections -funswitch-loops -fomit-frame-pointer -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized
+$(combo_2nd_arch_prefix)TARGET_RELEASE_CFLAGS := -O3 -DNDEBUG -frerun-cse-after-loop -frename-registers -fno-strict-aliasing -ffunction-sections -fdata-sections -funswitch-loops -fomit-frame-pointer -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized
+else
+$(combo_2nd_arch_prefix)TARGET_GLOBAL_CPPFLAGS += -fvisibility-inlines-hidden
+$(combo_2nd_arch_prefix)TARGET_RELEASE_CFLAGS := -DNDEBUG -Wstrict-aliasing=2 -fgcse-after-reload -frerun-cse-after-loop -frename-registers
+endif
 
 libc_root := bionic/libc
 libm_root := bionic/libm

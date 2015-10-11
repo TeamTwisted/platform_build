@@ -33,10 +33,18 @@ $(combo_var_prefix)CXX := $(CXX)
 $(combo_var_prefix)AR := $(AR)
 $(combo_var_prefix)STRIP := $(STRIP)
 
+ifeq ($(USE_O3_OPTIMIZATIONS),true)
+$(combo_var_prefix)GLOBAL_CFLAGS := -O3 -DNDEBUG -ffunction-sections -fdata-sections -funswitch-loops -fomit-frame-pointer -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-exceptions -fno-exceptions -Wno-multichar
+$(combo_var_prefix)RELEASE_CFLAGS := -O3 -DNDEBUG -ffunction-sections -fdata-sections -funswitch-loops -fomit-frame-pointer -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized
+$(combo_var_prefix)GLOBAL_CPPFLAGS := -O3 -DNDEBUG -ffunction-sections -fdata-sections -funswitch-loops -fomit-frame-pointer -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized
+$(combo_var_prefix)GLOBAL_LDFLAGS := -Wl,-O1 -Wl,--as-needed -Wl,--relax -Wl,--sort-common -Wl,--gc-sections
+else
 $(combo_var_prefix)GLOBAL_CFLAGS := -fno-exceptions -Wno-multichar
-$(combo_var_prefix)RELEASE_CFLAGS := -O2 -g -fno-strict-aliasing
+$(combo_var_prefix)RELEASE_CFLAGS := -O2 -g
 $(combo_var_prefix)GLOBAL_CPPFLAGS :=
 $(combo_var_prefix)GLOBAL_LDFLAGS :=
+endif
+
 $(combo_var_prefix)GLOBAL_ARFLAGS := crsPD
 $(combo_var_prefix)GLOBAL_LD_DIRS :=
 
