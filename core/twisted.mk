@@ -106,7 +106,9 @@ LOCAL_DISABLE_STRICT := \
 	liblog \
 	libbacktrace \
 libunwind \
-libbase
+libbase \
+libbacktrace_test \
+backtrace_test
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
