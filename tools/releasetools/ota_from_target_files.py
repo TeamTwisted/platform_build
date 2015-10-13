@@ -620,8 +620,8 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
     script.FormatPartition("/system")
     script.Mount("/system", recovery_mount_options)
     script.Mount("/data")
-    if not has_recovery_patch:
-      script.UnpackPackageDir("recovery", "/system")
+    #if not has_recovery_patch:
+    #  script.UnpackPackageDir("recovery", "/system")
     script.UnpackPackageDir("system", "/system")
 
     symlinks = CopyPartitionFiles(system_items, input_zip, output_zip)
@@ -1381,7 +1381,7 @@ else
 
     if not target_has_recovery_patch:
       def output_sink(fn, data):
-        common.ZipWriteStr(output_zip, "recovery/" + fn, data)
+        # common.ZipWriteStr(output_zip, "recovery/" + fn, data)
         system_items.Get("system/" + fn)
 
       common.MakeRecoveryPatch(OPTIONS.target_tmp, output_sink,
@@ -1455,9 +1455,9 @@ else
     script.Print("Unpacking new vendor files...")
     script.UnpackPackageDir("vendor", "/vendor")
 
-  if updating_recovery and not target_has_recovery_patch:
-    script.Print("Unpacking new recovery...")
-    script.UnpackPackageDir("recovery", "/system")
+  # if updating_recovery and not target_has_recovery_patch:
+  #  script.Print("Unpacking new recovery...")
+  #  script.UnpackPackageDir("recovery", "/system")
 
   system_diff.EmitRenames(script)
   if vendor_diff:
