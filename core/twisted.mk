@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2015 OptiPop
+# Copyright (C) 2014-2015 UBER
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,35 +13,9 @@
 # limitations under the License.
 #
 
-# TARGET_USE_PIPE
-ifeq ($(TARGET_USE_PIPE),true)
-LOCAL_DISABLE_PIPE := \
-	libc_dns \
-	libc_tzcode \
-	bluetooth.default
-
-ifneq (1,$(words $(filter $(LOCAL_DISABLE_PIPE), $(LOCAL_MODULE))))
-ifdef LOCAL_CONLYFLAGS
-LOCAL_CONLYFLAGS += \
-	-pipe
-else
-LOCAL_CONLYFLAGS := \
-	-pipe
-endif
-
-ifdef LOCAL_CPPFLAGS
-LOCAL_CPPFLAGS += \
-	-pipe
-else
-LOCAL_CPPFLAGS := \
-	-pipe
-endif
-endif
-endif
-#####
-
-# STRICT_ALIASING
-ifeq ($(STRICT_ALIASING),true)
+################
+#Strict Aliasing
+################
 LOCAL_DISABLE_STRICT := \
 	libc_bionic \
 	libc_dns \
@@ -102,94 +76,57 @@ LOCAL_DISABLE_STRICT := \
 	libart-compiler \
 	oatdump \
 	libart-disassembler \
+	linker \
+	camera.msm8084 \
+	mm-vdec-omx-test \
+	libc_malloc \
+	mdnsd \
+	libstagefright_webm \
 	libcutils \
 	liblog \
 	libbacktrace \
 libunwind \
 libbase \
 libbacktrace_test \
-backtrace_test
+backtrace_test \
+libc_bionic_ndk \
+libc_openbsd_ndk \
+libbt-brcm_stack \
+libosi \
+libext4 \
+clatd \
+ip \
+libnetlink \
+fio\
+tcpdump
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
 	libziparchive \
 	libdiskconfig \
 	logd \
-	libjavacore 
+	libjavacore \
+	camera.msm8084 \
+	libstagefright_webm \
+libc_bionic_ndk \
+libc_openbsd_ndk
 
-ifeq (1,$(words $(filter $(LOCAL_FORCE_DISABLE_STRICT),$(LOCAL_MODULE))))
-ifdef LOCAL_CONLYFLAGS
-LOCAL_CONLYFLAGS += \
+DISABLE_STRICT := \
 	-fno-strict-aliasing
-else
-LOCAL_CONLYFLAGS := \
-	-fno-strict-aliasing
-endif
-ifdef LOCAL_CPPFLAGS
-LOCAL_CPPFLAGS += \
-	-fno-strict-aliasing
-else
-LOCAL_CPPFLAGS := \
-	-fno-strict-aliasing
-endif
-endif
 
-ifneq (1,$(words $(filter $(LOCAL_DISABLE_STRICT),$(LOCAL_MODULE))))
-ifdef LOCAL_CONLYFLAGS
-LOCAL_CONLYFLAGS += \
+STRICT_ALIASING_FLAGS := \
 	-fstrict-aliasing \
 	-Werror=strict-aliasing
-else
-LOCAL_CONLYFLAGS := \
-	-fstrict-aliasing \
-	-Werror=strict-aliasing
-endif
 
-ifdef LOCAL_CPPFLAGS
-LOCAL_CPPFLAGS += \
-	-fstrict-aliasing \
-	-Werror=strict-aliasing
-else
-LOCAL_CPPFLAGS := \
-	-fstrict-aliasing \
-	-Werror=strict-aliasing
-endif
-ifndef LOCAL_CLANG
-LOCAL_CONLYFLAGS += \
+STRICT_GCC_LEVEL := \
 	-Wstrict-aliasing=3
-LOCAL_CPPFLAGS += \
-	-Wstrict-aliasing=3
-else
-LOCAL_CONLYFLAGS += \
-	-Wstrict-aliasing=2
-LOCAL_CPPFLAGS += \
-	-Wstrict-aliasing=2
-endif
-endif
-else
 
-ifeq (1,$(words $(filter $(LOCAL_FORCE_DISABLE_STRICT),$(LOCAL_MODULE))))
-ifdef LOCAL_CONLYFLAGS
-LOCAL_CONLYFLAGS += \
-	-fno-strict-aliasing
-else
-LOCAL_CONLYFLAGS := \
-	-fno-strict-aliasing
-endif
-ifdef LOCAL_CPPFLAGS
-LOCAL_CPPFLAGS += \
-	-fno-strict-aliasing
-else
-LOCAL_CPPFLAGS := \
-	-fno-strict-aliasing
-endif
-endif
-endif
-#####
+STRICT_CLANG_LEVEL := \
+	-Wstrict-aliasing=2
 
-# KRAIT_TUNINGS
-ifeq ($(KRAIT_TUNINGS),true)
-ifndef LOCAL_IS_HOST_MODULE
+###############
+# Krait Tunings
+###############
 LOCAL_DISABLE_KRAIT := \
 	libc_dns \
 	libc_tzcode \
@@ -198,40 +135,21 @@ LOCAL_DISABLE_KRAIT := \
 	libwebviewchromium_loader \
 	libwebviewchromium_plat_support
 
-ifneq (1,$(words $(filter $(LOCAL_DISABLE_KRAIT), $(LOCAL_MODULE))))
-ifdef LOCAL_CONLYFLAGS
-LOCAL_CONLYFLAGS += -mcpu=cortex-a15 \
+KRAIT_FLAGS := \
+	-mcpu=cortex-a15 \
 	-mtune=cortex-a15
-else
-LOCAL_CONLYFLAGS := -mcpu=cortex-a15 \
-	-mtune=cortex-a15
-endif
 
-ifdef LOCAL_CPPFLAGS
-LOCAL_CPPFLAGS += -mcpu=cortex-a15 \
-	-mtune=cortex-a15
-else
-LOCAL_CPPFLAGS := -mcpu=cortex-a15 \
-	-mtune=cortex-a15
-endif
-endif
-endif
-endif
-#####
-
-# ENABLE_GCCONLY
-ifeq ($(ENABLE_GCCONLY),true)
-ifndef LOCAL_IS_HOST_MODULE
-ifeq ($(LOCAL_CLANG),)
+#############
+# GCC Tunings
+#############
 LOCAL_DISABLE_GCCONLY := \
 	bluetooth.default \
 	libwebviewchromium \
 	libwebviewchromium_loader \
 	libwebviewchromium_plat_support
 
-ifneq (1,$(words $(filter $(LOCAL_DISABLE_GCCONLY), $(LOCAL_MODULE))))
-ifdef LOCAL_CONLYFLAGS
-LOCAL_CONLYFLAGS += -fira-loop-pressure \
+GCC_ONLY := \
+	-fira-loop-pressure \
 	-fforce-addr \
 	-funsafe-loop-optimizations \
 	-funroll-loops \
@@ -245,119 +163,10 @@ LOCAL_CONLYFLAGS += -fira-loop-pressure \
 	-fweb \
 	-ffp-contract=fast \
 	-mvectorize-with-neon-quad
-else
-LOCAL_CONLYFLAGS := -fira-loop-pressure \
-	-fforce-addr \
-	-funsafe-loop-optimizations \
-	-funroll-loops \
-	-ftree-loop-distribution \
-	-fsection-anchors \
-	-ftree-loop-im \
-	-ftree-loop-ivcanon \
-	-ffunction-sections \
-	-fgcse-las \
-	-fgcse-sm \
-	-fweb \
-	-ffp-contract=fast \
-	-mvectorize-with-neon-quad
-endif
 
-ifdef LOCAL_CPPFLAGS
-LOCAL_CPPFLAGS += -fira-loop-pressure \
-	-fforce-addr \
-	-funsafe-loop-optimizations \
-	-funroll-loops \
-	-ftree-loop-distribution \
-	-fsection-anchors \
-	-ftree-loop-im \
-	-ftree-loop-ivcanon \
-	-ffunction-sections \
-	-fgcse-las \
-	-fgcse-sm \
-	-fweb \
-	-ffp-contract=fast \
-	-mvectorize-with-neon-quad
-else
-LOCAL_CPPFLAGS := -fira-loop-pressure \
-	-fforce-addr \
-	-funsafe-loop-optimizations \
-	-funroll-loops \
-	-ftree-loop-distribution \
-	-fsection-anchors \
-	-ftree-loop-im \
-	-ftree-loop-ivcanon \
-	-ffunction-sections \
-	-fgcse-las \
-	-fgcse-sm \
-	-fweb \
-	-ffp-contract=fast \
-	-mvectorize-with-neon-quad
-endif
-endif
-#####
-
-# FLOOP_NEST_OPTIMIZE
-ifeq ($(FLOOP_NEST_OPTIMIZE),true)
-LOCAL_ENABLE_NEST := \
-	art \
-	libsigchain \
-	libart-disassembler \
-	core.art-host \
-	core.art \
-	cpplint-art-phony \
-	libnativebridgetest \
-	libarttest \
-	art-run-tests \
-	libart-gtest \
-	libc \
-	libc_bionic \
-	libc_gdtoa \
-	libc_netbsd \
-	libc_freebsd \
-	libc_dns \
-	libc_openbsd \
-	libc_cxa \
-	libc_syscalls \
-	libc_aeabi \
-	libc_common \
-	libc_nomalloc \
-	libc_malloc \
-	libc_stack_protector \
-	libc_tzcode \
-	libstdc++ \
-	linker \
-	libdl \
-	libm \
-	tzdata \
-	bionic-benchmarks
-	
-ifeq (1,$(words $(filter $(LOCAL_ENABLE_NEST), $(LOCAL_MODULE))))
-ifdef LOCAL_CONLYFLAGS
-LOCAL_CONLYFLAGS += \
-	-floop-nest-optimize
-else
-LOCAL_CONLYFLAGS := \
-	-floop-nest-optimize
-endif
-
-ifdef LOCAL_CPPFLAGS
-LOCAL_CPPFLAGS += \
-	-floop-nest-optimize
-else
-LOCAL_CPPFLAGS := \
-	-floop-nest-optimize
-endif
-endif
-endif
-endif
-endif
-endif
-#####
-
-# GRAPHITE_OPTS
-ifeq ($(GRAPHITE_OPTS),true)
-ifndef LOCAL_IS_HOST_MODULE
-ifeq ($(LOCAL_CLANG),)
+##########
+# GRAPHITE
+##########
 LOCAL_DISABLE_GRAPHITE := \
 	libunwind \
 	libFFTEm \
@@ -375,50 +184,17 @@ LOCAL_DISABLE_GRAPHITE := \
 	libwebviewchromium_plat_support \
 	libjni_filtershow_filters \
 	fio \
-	libwebrtc_spl
+	libwebrtc_spl \
+	libpcap \
+	libFraunhoferAAC \
+libft2
 
-ifneq (1,$(words $(filter $(LOCAL_DISABLE_GRAPHITE), $(LOCAL_MODULE))))
-ifdef LOCAL_CONLYFLAGS
-LOCAL_CONLYFLAGS += \
+GRAPHITE_FLAGS := \
 	-fgraphite \
+	-fgraphite-identity \
 	-floop-flatten \
 	-floop-parallelize-all \
 	-ftree-loop-linear \
 	-floop-interchange \
 	-floop-strip-mine \
 	-floop-block
-else
-LOCAL_CONLYFLAGS := \
-	-fgraphite \
-	-floop-flatten \
-	-floop-parallelize-all \
-	-ftree-loop-linear \
-	-floop-interchange \
-	-floop-strip-mine \
-	-floop-block
-endif
-
-ifdef LOCAL_CPPFLAGS
-LOCAL_CPPFLAGS += \
-	-fgraphite \
-	-floop-flatten \
-	-floop-parallelize-all \
-	-ftree-loop-linear \
-	-floop-interchange \
-	-floop-strip-mine \
-	-floop-block
-else
-LOCAL_CPPFLAGS := \
-	-fgraphite \
-	-floop-flatten \
-	-floop-parallelize-all \
-	-ftree-loop-linear \
-	-floop-interchange \
-	-floop-strip-mine \
-	-floop-block
-endif
-endif
-endif
-endif
-endif
-#####

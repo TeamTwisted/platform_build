@@ -69,17 +69,16 @@ $(combo_2nd_arch_prefix)TARGET_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
 
 ifeq ($(USE_O3_OPTIMIZATIONS),true)
 $(combo_2nd_arch_prefix)TARGET_arm_CFLAGS := -O3 -DNDEBUG -fomit-frame-pointer -funswitch-loops -fno-tree-vectorize -fno-inline-functions -ffunction-sections -fdata-sections -frename-registers -fomit-frame-pointer -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized
-$(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS := -Os -DNDEBUG -fomit-frame-pointer -fno-strict-aliasing -fno-tree-vectorize -fno-inline-functions -fno-unswitch-loops -ffunction-sections -fdata-sections -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized -Wno-clobbered -Wno-strict-overflow
 else
 $(combo_2nd_arch_prefix)TARGET_arm_CFLAGS := -O2 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops
-$(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS := -Os -fomit-frame-pointer -fno-strict-aliasing
 endif
 
 # Modules can choose to compile some source as thumb.
-$(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS :=  -mthumb \
-                        -Os \
-                        -fomit-frame-pointer \
-                        -fno-strict-aliasing
+ifeq ($(STRICT_ALIASING),true)
+$(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS := -mthumb -Os -fomit-frame-pointer
+else
+$(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS := -mthumb -Os -fomit-frame-pointer -fno-strict-aliasing
+endif
 
 # Set FORCE_ARM_DEBUGGING to "true" in your buildspec.mk
 # or in your environment to force a full arm build, even for
