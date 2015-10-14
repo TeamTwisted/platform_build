@@ -98,7 +98,8 @@ clatd \
 ip \
 libnetlink \
 fio\
-tcpdump
+tcpdump \
+fs_config_generate_shamu
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
