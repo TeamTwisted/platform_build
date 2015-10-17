@@ -1603,7 +1603,7 @@ bacon: otapackage
 	@echo -e ${CL_CYN}"ZIP: "${CL_CYN} $$(basename $(INTERNAL_OTA_PACKAGE_TARGET))${CL_RST}
 	@echo -e ${CL_CYN}"MD5: "${CL_CYN}" `cat $(INTERNAL_OTA_PACKAGE_TARGET).md5sum | cut -d ' ' -f 1`"${CL_RST}
 	@echo -e ${CL_CYN}"Size:"${CL_CYN}" `ls -la --si $(INTERNAL_OTA_PACKAGE_TARGET) | cut -d ' ' -f 5`"${CL_RST}
-	@echo -e ${CL_CYN}"============================================================"${CL_RST}
+	@echo -e ${CL_CYN}"============================================================="${CL_RST}
 
 endif    # recovery_fstab is defined
 endif    # TARGET_NO_KERNEL != true
