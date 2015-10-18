@@ -29,8 +29,7 @@ PRODUCT_PACKAGES += \
 # Additional settings used in all AOSP builds
 PRODUCT_PROPERTY_OVERRIDES := \
     ro.config.ringtone=Titania.ogg \
-    ro.config.notification_sound=Tethys.ogg \
-    ro.config.alarm_alert=Osmium.ogg
+    ro.config.notification_sound=Tethys.ogg
 
 # Put en_US first in the list, so make it default.
 PRODUCT_LOCALES := en_US
@@ -39,7 +38,7 @@ PRODUCT_LOCALES := en_US
 PRODUCT_AAPT_CONFIG := normal
 
 # Get some sounds
-$(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackage13_48.mk)
+$(call inherit-product-if-exists, frameworks/base/data/sounds/GoogleAudio.mk)
 
 # Get a list of languages.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/locales_full.mk)
