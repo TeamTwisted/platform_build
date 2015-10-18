@@ -85,21 +85,29 @@ LOCAL_DISABLE_STRICT := \
 	libcutils \
 	liblog \
 	libbacktrace \
-libunwind \
-libbase \
-libbacktrace_test \
-backtrace_test \
-libc_bionic_ndk \
-libc_openbsd_ndk \
-libbt-brcm_stack \
-libosi \
-libext4 \
-clatd \
-ip \
-libnetlink \
-fio\
-tcpdump \
-fs_config_generate_shamu
+    libunwind \
+    libbase \
+    libbacktrace_test \
+    backtrace_test \
+	libc_bionic_ndk \
+    libc_dns \
+    libc_gdtoa \
+    libc_openbsd_ndk \
+    libc \
+	libbt-brcm_stack \
+	libandroid_runtime \
+	libandroidfw \
+	libosi \
+	libnetlink \
+    libext4 \
+	clatd \
+	ip \
+    libnetlink \
+    fio\
+    tcpdump \
+	libc_nomalloc \
+	linker
+    fs_config_generate_shamu
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
@@ -109,8 +117,21 @@ LOCAL_FORCE_DISABLE_STRICT := \
 	libjavacore \
 	camera.msm8084 \
 	libstagefright_webm \
-libc_bionic_ndk \
-libc_openbsd_ndk
+	libc_bionic_ndk \
+    libc_dns \
+    libc_gdtoa \
+    libc_openbsd_ndk \
+    liblog \
+    libc \
+	libbt-brcm_stack \
+	libandroid_runtime \
+	libandroidfw \
+	libosi \
+	libnetlink \
+	clatd \
+	ip \
+	libc_nomalloc \
+	linker
 
 DISABLE_STRICT := \
 	-fno-strict-aliasing
@@ -188,8 +209,8 @@ LOCAL_DISABLE_GRAPHITE := \
 	libwebrtc_spl \
 	libpcap \
 	libFraunhoferAAC \
-libft2 \
-libhwui
+    libft2 \
+    libhwui
 
 GRAPHITE_FLAGS := \
 	-fgraphite \
