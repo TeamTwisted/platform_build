@@ -576,6 +576,20 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
   script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
   device_specific.FullOTA_InstallBegin()
 
+ script.Print("                                                  ")
+ script.Print("___________       .__          __             .___")
+ script.Print("\__    ___/_  _  _|__| _______/  |_  ____   __| _/  ") 
+ script.Print("  |    |  \ \/ \/ /  |/  ___/\   __\/ __ \ / __ |  ") 
+ script.Print("  |    |   \     /|  |\___ \  |  | \  ___// /_/ |  ")
+ script.Print("  |____|    \/\_/ |__/____  > |__|  \___  >____ |  ")
+ script.Print("                          \/            \/     \/  ")
+ script.Print("                                                  ")
+ script.Print("                                                  ") 
+ script.Print("*********************************************************")
+ script.Print("---------------TWISTED ANDROID PROJECT-------------------")
+ script.Print(" * aow1980 * BrandenM * freak_97 * hellsgod * letmedanz *")
+ script.Print("*********************************************************")
+   
   system_progress = 0.75
 
   if OPTIONS.wipe_user_data:
