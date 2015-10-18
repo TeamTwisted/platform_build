@@ -85,29 +85,29 @@ LOCAL_DISABLE_STRICT := \
 	libcutils \
 	liblog \
 	libbacktrace \
-    libunwind \
-    libbase \
-    libbacktrace_test \
-    backtrace_test \
+        libunwind \
+        libbase \
+        libbacktrace_test \
+        backtrace_test \
 	libc_bionic_ndk \
-    libc_dns \
-    libc_gdtoa \
-    libc_openbsd_ndk \
-    libc \
+        libc_dns \
+        libc_gdtoa \
+        libc_openbsd_ndk \
+        libc \
 	libbt-brcm_stack \
 	libandroid_runtime \
 	libandroidfw \
 	libosi \
 	libnetlink \
-    libext4 \
+        libext4 \
 	clatd \
 	ip \
-    libnetlink \
-    fio\
-    tcpdump \
+        libnetlink \
+        fio\
+        tcpdump \
 	libc_nomalloc \
-	linker
-    fs_config_generate_shamu
+	linker \
+        fs_config_generate_shamu
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
@@ -118,11 +118,11 @@ LOCAL_FORCE_DISABLE_STRICT := \
 	camera.msm8084 \
 	libstagefright_webm \
 	libc_bionic_ndk \
-    libc_dns \
-    libc_gdtoa \
-    libc_openbsd_ndk \
-    liblog \
-    libc \
+        libc_dns \
+        libc_gdtoa \
+        libc_openbsd_ndk \
+        liblog \
+        libc \
 	libbt-brcm_stack \
 	libandroid_runtime \
 	libandroidfw \
