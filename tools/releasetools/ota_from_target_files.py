@@ -406,10 +406,7 @@ def SignOutput(temp_zip_name, output_zip_name):
 def AppendAssertions(script, info_dict, oem_dict=None):
   oem_props = info_dict.get("oem_fingerprint_properties")
   if oem_props is None or len(oem_props) == 0:
-    if OPTIONS.override_device == "auto":
-      device = GetBuildProp("ro.product.device", info_dict)
-    else:
-      device = OPTIONS.override_device    
+    device = GetBuildProp("ro.product.device", info_dict)
     script.AssertDevice(device)
   else:
     if oem_dict is None:
@@ -594,24 +591,25 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
   script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
   device_specific.FullOTA_InstallBegin()
 
- script.Print("                                                  ")
- script.Print("___________       .__          __             .___")
- script.Print("\__    ___/_  _  _|__| _______/  |_  ____   __| _/  ") 
- script.Print("  |    |  \ \/ \/ /  |/  ___/\   __\/ __ \ / __ |  ") 
- script.Print("  |    |   \     /|  |\___ \  |  | \  ___// /_/ |  ")
- script.Print("  |____|    \/\_/ |__/____  > |__|  \___  >____ |  ")
- script.Print("                          \/            \/     \/  ")
- script.Print("                                                  ")
- script.Print("                                                  ") 
- script.Print("*********************************************************")
- script.Print("---------------TWISTED ANDROID PROJECT-------------------")
- script.Print(" * aow1980 * BrandenM * freak_97 * hellsgod * letmedanz *")
- script.Print("*********************************************************")
-   
   CopyInstallTools(output_zip)
   script.UnpackPackageDir("install", "/tmp/install")
   script.SetPermissionsRecursive("/tmp/install", 0, 0, 0755, 0644, None, None)
   script.SetPermissionsRecursive("/tmp/install/bin", 0, 0, 0755, 0755, None, None)
+
+  script.Print("                                                  ")
+  script.Print("___________       .__          __             .___")
+  script.Print("\__    ___/_  _  _|__| _______/  |_  ____   __| _/  ") 
+  script.Print("  |    |  \ \/ \/ /  |/  ___/\   __\/ __ \ / __ |  ") 
+  script.Print("  |    |   \     /|  |\___ \  |  | \  ___// /_/ |  ")
+  script.Print("  |____|    \/\_/ |__/____  > |__|  \___  >____ |  ")
+  script.Print("                          \/            \/     \/  ")
+  script.Print("                                                  ")
+  script.Print("                                                  ") 
+  script.Print("*********************************************************")
+  script.Print("---------------TWISTED ANDROID PROJECT-------------------")
+  script.Print(" * aow1980 * BrandenM * freak_97 * hellsgod * letmedanz *")
+  script.Print("*********************************************************")
+  script.Print("Running backup scripts and setting permissions...")
 
   if OPTIONS.backuptool:
     script.Mount("/system")
