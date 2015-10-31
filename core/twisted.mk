@@ -90,10 +90,11 @@ LOCAL_DISABLE_STRICT := \
         libbacktrace_test \
         backtrace_test \
 	libc_bionic_ndk \
-        libc_dns \
-        libc_gdtoa \
-        libc_openbsd_ndk \
-        libc \
+	libc_dns \
+	libc_gdtoa \
+	libc_openbsd_ndk \
+	liblog \
+	libc \
 	libbt-brcm_stack \
 	libandroid_runtime \
 	libandroidfw \
@@ -107,7 +108,8 @@ LOCAL_DISABLE_STRICT := \
         tcpdump \
 	libc_nomalloc \
 	linker \
-        fs_config_generate_shamu
+	sensors.flounder \
+	libnvvisualizer
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
@@ -118,11 +120,11 @@ LOCAL_FORCE_DISABLE_STRICT := \
 	camera.msm8084 \
 	libstagefright_webm \
 	libc_bionic_ndk \
-        libc_dns \
-        libc_gdtoa \
-        libc_openbsd_ndk \
-        liblog \
-        libc \
+	libc_dns \
+	libc_gdtoa \
+	libc_openbsd_ndk \
+	liblog \
+	libc \
 	libbt-brcm_stack \
 	libandroid_runtime \
 	libandroidfw \
@@ -131,7 +133,10 @@ LOCAL_FORCE_DISABLE_STRICT := \
 	clatd \
 	ip \
 	libc_nomalloc \
-	linker
+	linker \
+	libc_malloc \
+	sensors.flounder \
+	libnvvisualizer
 
 DISABLE_STRICT := \
 	-fno-strict-aliasing
@@ -170,6 +175,7 @@ LOCAL_DISABLE_GCCONLY := \
 	libwebviewchromium_loader \
 	libwebviewchromium_plat_support
 
+ifeq (arm,$(TARGET_ARCH))
 GCC_ONLY := \
 	-fira-loop-pressure \
 	-fforce-addr \
@@ -185,6 +191,22 @@ GCC_ONLY := \
 	-fweb \
 	-ffp-contract=fast \
 	-mvectorize-with-neon-quad
+else
+GCC_ONLY := \
+	-fira-loop-pressure \
+	-fforce-addr \
+	-funsafe-loop-optimizations \
+	-funroll-loops \
+	-ftree-loop-distribution \
+	-fsection-anchors \
+	-ftree-loop-im \
+	-ftree-loop-ivcanon \
+	-ffunction-sections \
+	-fgcse-las \
+	-fgcse-sm \
+	-fweb \
+	-ffp-contract=fast
+endif
 
 ##########
 # GRAPHITE
@@ -210,7 +232,7 @@ LOCAL_DISABLE_GRAPHITE := \
 	libpcap \
 	libFraunhoferAAC \
     libft2 \
-    libhwui
+	libhwui
 
 GRAPHITE_FLAGS := \
 	-fgraphite \
