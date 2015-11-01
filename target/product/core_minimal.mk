@@ -69,14 +69,13 @@ PRODUCT_PACKAGES += \
     make_ext4fs \
     e2fsck \
     resize2fs \
-    libwebviewchromium_plat_support \
-    libwebviewchromium_loader \
     screencap \
     sensorservice \
     telephony-common \
     uiautomator \
     uncrypt \
     voip-common \
+    webview \
     WebViewGoogle \
     wifi-service
 
