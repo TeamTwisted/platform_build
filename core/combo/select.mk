@@ -33,10 +33,18 @@ $(combo_var_prefix)CXX := $(CXX)
 $(combo_var_prefix)AR := $(AR)
 $(combo_var_prefix)STRIP := $(STRIP)
 
+ifeq ($(USE_O3_OPTIMIZATIONS),true)
+$(combo_var_prefix)GLOBAL_CFLAGS := -O3 -DNDEBUG -ffunction-sections -fdata-sections -funswitch-loops -fomit-frame-pointer -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-exceptions -fno-exceptions -Wno-multichar
+$(combo_var_prefix)RELEASE_CFLAGS := -O3 -DNDEBUG -ffunction-sections -fdata-sections -funswitch-loops -fomit-frame-pointer -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized
+$(combo_var_prefix)GLOBAL_CPPFLAGS := -O3 -DNDEBUG -ffunction-sections -fdata-sections -funswitch-loops -fomit-frame-pointer -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-maybe-uninitialized
+$(combo_var_prefix)GLOBAL_LDFLAGS := -Wl,-O1 -Wl,--as-needed -Wl,--relax -Wl,--sort-common -Wl,--gc-sections
+else
 $(combo_var_prefix)GLOBAL_CFLAGS := -fno-exceptions -Wno-multichar
-$(combo_var_prefix)RELEASE_CFLAGS := -O2 -g -fno-strict-aliasing
+$(combo_var_prefix)RELEASE_CFLAGS := -O2 -g
 $(combo_var_prefix)GLOBAL_CPPFLAGS :=
 $(combo_var_prefix)GLOBAL_LDFLAGS :=
+endif
+
 $(combo_var_prefix)GLOBAL_ARFLAGS := crsPD
 $(combo_var_prefix)GLOBAL_LD_DIRS :=
 
@@ -47,3 +55,65 @@ $(combo_var_prefix)STATIC_LIB_SUFFIX := .a
 
 # Now include the combo for this specific target.
 include $(BUILD_COMBOS)/$(combo_target)$(combo_os_arch).mk
+
+ifneq ($(USE_CCACHE),)
+  # The default check uses size and modification time, causing false misses
+  # since the mtime depends when the repo was checked out
+  export CCACHE_COMPILERCHECK := content
+
+  # See man page, optimizations to get more cache hits
+  # implies that __DATE__ and __TIME__ are not critical for functionality.
+  # Ignore include file modification time since it will depend on when
+  # the repo was checked out
+  export CCACHE_SLOPPINESS := time_macros,include_file_mtime,file_macro
+
+  # Turn all preprocessor absolute paths into relative paths.
+  # Fixes absolute paths in preprocessed source due to use of -g.
+  # We don't really use system headers much so the rootdir is
+  # fine; ensures these paths are relative for all Android trees
+  # on a workstation.
+  ifeq ($(CCACHE_BASEDIR),)
+    export CCACHE_BASEDIR := $(ANDROID_BUILD_TOP)
+  endif
+
+  # Workaround for ccache with clang.
+  # See http://petereisentraut.blogspot.com/2011/09/ccache-and-clang-part-2.html
+  export CCACHE_CPP2 := true
+
+  CCACHE_HOST_TAG := $(HOST_PREBUILT_TAG)
+  # If we are cross-compiling Windows binaries on Linux
+  # then use the linux ccache binary instead.
+  ifeq ($(HOST_OS)-$(BUILD_OS),windows-linux)
+    CCACHE_HOST_TAG := linux-$(HOST_PREBUILT_ARCH)
+  endif
+  ccache := prebuilts/misc/$(CCACHE_HOST_TAG)/ccache/ccache
+  # Check that the executable is here.
+  ccache := $(strip $(wildcard $(ccache)))
+  ifdef ccache
+    ifndef CC_WRAPPER
+      CC_WRAPPER := $(ccache)
+    endif
+    ifndef CXX_WRAPPER
+      CXX_WRAPPER := $(ccache)
+    endif
+    ifeq ($(ANDROID_CCACHE_DIR), $(CCACHE_DIR))
+      ifneq ($(ANDROID_CCACHE_SIZE),)
+        ACCSIZE_RESULT := $(shell $(ccache) -M$(ANDROID_CCACHE_SIZE))
+      endif
+    endif
+    ccache =
+    ACCSIZE_RESULT =
+  endif
+endif
+
+# The C/C++ compiler can be wrapped by setting the CC/CXX_WRAPPER vars.
+ifdef CC_WRAPPER
+  ifneq ($(CC_WRAPPER),$(firstword $($(combo_var_prefix)CC)))
+    $(combo_var_prefix)CC := $(CC_WRAPPER) $($(combo_var_prefix)CC)
+  endif
+endif
+ifdef CXX_WRAPPER
+  ifneq ($(CXX_WRAPPER),$(firstword $($(combo_var_prefix)CXX)))
+    $(combo_var_prefix)CXX := $(CXX_WRAPPER) $($(combo_var_prefix)CXX)
+  endif
+endif
