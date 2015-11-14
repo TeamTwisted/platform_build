@@ -85,20 +85,32 @@ LOCAL_DISABLE_STRICT := \
 	libcutils \
 	liblog \
 	libbacktrace \
-libunwind \
-libbase \
-libbacktrace_test \
-backtrace_test \
-libc_bionic_ndk \
-libc_openbsd_ndk \
-libbt-brcm_stack \
-libosi \
-libext4 \
-clatd \
-ip \
-libnetlink \
-fio\
-tcpdump
+        libunwind \
+        libbase \
+        libbacktrace_test \
+        backtrace_test \
+	libc_bionic_ndk \
+	libc_dns \
+	libc_gdtoa \
+	libc_openbsd_ndk \
+	liblog \
+	libc \
+	libbt-brcm_stack \
+	libandroid_runtime \
+	libandroidfw \
+	libosi \
+	libnetlink \
+        libext4 \
+	clatd \
+	ip \
+        libnetlink \
+        fio\
+        tcpdump \
+	libc_nomalloc \
+	linker \
+	sensors.flounder \
+	libnvvisualizer \
+	libskia
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
@@ -108,8 +120,25 @@ LOCAL_FORCE_DISABLE_STRICT := \
 	libjavacore \
 	camera.msm8084 \
 	libstagefright_webm \
-libc_bionic_ndk \
-libc_openbsd_ndk
+	libc_bionic_ndk \
+	libc_dns \
+	libc_gdtoa \
+	libc_openbsd_ndk \
+	liblog \
+	libc \
+	libbt-brcm_stack \
+	libandroid_runtime \
+	libandroidfw \
+	libosi \
+	libnetlink \
+	clatd \
+	ip \
+	libc_nomalloc \
+	linker \
+	libc_malloc \
+	sensors.flounder \
+	libnvvisualizer \
+	libskia
 
 DISABLE_STRICT := \
 	-fno-strict-aliasing
@@ -148,6 +177,7 @@ LOCAL_DISABLE_GCCONLY := \
 	libwebviewchromium_loader \
 	libwebviewchromium_plat_support
 
+ifeq (arm,$(TARGET_ARCH))
 GCC_ONLY := \
 	-fira-loop-pressure \
 	-fforce-addr \
@@ -163,6 +193,22 @@ GCC_ONLY := \
 	-fweb \
 	-ffp-contract=fast \
 	-mvectorize-with-neon-quad
+else
+GCC_ONLY := \
+	-fira-loop-pressure \
+	-fforce-addr \
+	-funsafe-loop-optimizations \
+	-funroll-loops \
+	-ftree-loop-distribution \
+	-fsection-anchors \
+	-ftree-loop-im \
+	-ftree-loop-ivcanon \
+	-ffunction-sections \
+	-fgcse-las \
+	-fgcse-sm \
+	-fweb \
+	-ffp-contract=fast
+endif
 
 ##########
 # GRAPHITE
@@ -187,7 +233,8 @@ LOCAL_DISABLE_GRAPHITE := \
 	libwebrtc_spl \
 	libpcap \
 	libFraunhoferAAC \
-libft2
+    libft2 \
+	libhwui
 
 GRAPHITE_FLAGS := \
 	-fgraphite \
