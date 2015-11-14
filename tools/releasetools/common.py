@@ -441,10 +441,8 @@ def GetBootableImage(name, prebuilt_name, unpack_dir, tree_subdir,
 
 def UnzipTemp(filename, pattern=None):
   """Unzip the given archive into a temporary directory and return the name.
-
   If filename is of the form "foo.zip+bar.zip", unzip foo.zip into a
   temp dir, then unzip bar.zip into that_dir/BOOTABLE_IMAGES.
-
   Returns (tempdir, zipobj) where zipobj is a zipfile.ZipFile (of the
   main file), open for reading.
   """
@@ -528,10 +526,8 @@ def SignFile(input_name, output_name, key, password, align=None,
   """Sign the input_name zip/jar/apk, producing output_name.  Use the
   given key and password (the latter may be None if the key does not
   have a password.
-
   If align is an integer > 1, zipalign is run to align stored files in
   the output zip on 'align'-byte boundaries.
-
   If whole_file is true, use the "-w" option to SignApk to embed a
   signature that covers the whole file in the archive comment of the
   zip file.
@@ -639,18 +635,14 @@ COMMON_DOCSTRING = """
   -p  (--path)  <dir>
       Prepend <dir>/bin to the list of places to search for binaries
       run by this script, and expect to find jars in <dir>/framework.
-
   -s  (--device_specific) <file>
       Path to the python module containing device-specific
       releasetools code.
-
   -x  (--extra)  <key=value>
       Add a key/value pair to the 'extras' dict, which device-specific
       extension code may look at.
-
   -v  (--verbose)
       Show command lines being executed.
-
   -h  (--help)
       Display this usage message and exit.
 """
@@ -754,7 +746,6 @@ class PasswordManager(object):
     """Get passwords corresponding to each string in 'items',
     returning a dict.  (The dict may have keys in addition to the
     values in 'items'.)
-
     Uses the passwords in $ANDROID_PW_FILE if available, letting the
     user edit that file to add more needed passwords.  If no editor is
     available, or $ANDROID_PW_FILE isn't define, prompts the user
@@ -890,11 +881,9 @@ def ZipWrite(zip_file, filename, arcname=None, perms=0o644,
 def ZipWriteStr(zip_file, zinfo_or_arcname, data, perms=None,
                 compress_type=None):
   """Wrap zipfile.writestr() function to work around the zip64 limit.
-
   Even with the ZIP64_LIMIT workaround, it won't allow writing a string
   longer than 2GiB. It gives 'OverflowError: size does not fit in an int'
   when calling crc32(bytes).
-
   But it still works fine to write a shorter string into a large zip file.
   We should use ZipWrite() whenever possible, and only use ZipWriteStr()
   when we know the string won't be too long.
@@ -990,6 +979,11 @@ class DeviceSpecificParams(object):
     """Called at the end of full OTA installation; typically this is
     used to install the image for the device's baseband processor."""
     return self._DoCall("FullOTA_InstallEnd")
+
+  def FullOTA_PostValidate(self):
+    """Called after installing and validating /system; typically this is
+    used to resize the system partition after a block based installation."""
+    return self._DoCall("FullOTA_PostValidate")
 
   def IncrementalOTA_Assertions(self):
     """Called after emitting the block of assertions at the top of an
@@ -1370,7 +1364,6 @@ def MakeRecoveryPatch(input_dir, output_sink, recovery_img, boot_img,
   should be efficient.)  Add it to the output zip, along with a shell
   script that is run from init.rc on first boot to actually do the
   patching and install the new recovery image.
-
   recovery_img and boot_img should be File objects for the
   corresponding images.  info should be the dictionary returned by
   common.LoadInfoDict() on the input target_files.

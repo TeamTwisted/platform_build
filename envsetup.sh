@@ -68,6 +68,15 @@ function check_product()
         echo "Couldn't locate the top of the tree.  Try setting TOP." >&2
         return
     fi
+
+    if (echo -n $1 | grep -q -e "^twisted_") ; then
+       TWISTED_BUILD=$(echo -n $1 | sed -e 's/^twisted_//g')
+       export BUILD_NUMBER=$( (date +%s%N ; echo $TWISTED_BUILD; hostname) | openssl sha1 | sed -e 's/.*=//g; s/ //g' | cut -c1-10)
+    else
+       TWISTED_BUILD=
+    fi
+    export TWISTED_BUILD
+
         TARGET_PRODUCT=$1 \
         TARGET_BUILD_VARIANT= \
         TARGET_BUILD_TYPE= \
@@ -198,6 +207,7 @@ function setpaths()
     fi
 
     export PATH=$ANDROID_BUILD_PATHS$PATH
+    export PYTHONPATH=$T/system/core:$PYTHONPATH
 
     unset ANDROID_JAVA_TOOLCHAIN
     unset ANDROID_PRE_BUILD_PATHS
@@ -240,7 +250,6 @@ function set_stuff_for_environment()
     setpaths
     set_sequence_number
 
-    export ANDROID_BUILD_TOP=$(gettop)
     # With this environment variable new GCC can apply colors to warnings/errors
     export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
     export ASAN_OPTIONS=detect_leaks=0
@@ -490,6 +499,49 @@ function print_lunch_menu()
 
     echo
 }
+
+function brunch()
+{
+    breakfast $*
+    if [ $? -eq 0 ]; then
+        time mka bacon
+    else
+        echo "No such item in brunch menu. Try 'breakfast'"
+        return 1
+    fi
+    return $?
+}
+
+function breakfast()
+{
+    target=$1
+    DU_DEVICES_ONLY="true"
+    unset LUNCH_MENU_CHOICES
+    add_lunch_combo full-eng
+    for f in `/bin/ls vendor/du/vendorsetup.sh 2> /dev/null`
+        do
+            echo "including $f"
+            . $f
+        done
+    unset f
+
+    if [ $# -eq 0 ]; then
+        # No arguments, so let's have the full menu
+        lunch
+    else
+        echo "z$target" | grep -q "-"
+        if [ $? -eq 0 ]; then
+            # A buildtype was specified, assume a full device name
+            lunch $target
+        else
+            # This is probably just the du model name
+            lunch du_$target-userdebug
+        fi
+    fi
+    return $?
+}
+
+alias bib=breakfast
 
 function lunch()
 {
@@ -1404,6 +1456,7 @@ function godir () {
     \cd $T/$pathname
 }
 
+# Make using all available CPUs
 function mka() {
     case `uname -s` in
         Darwin)
@@ -1528,3 +1581,5 @@ done
 unset f
 
 addcompletions
+
+export ANDROID_BUILD_TOP=$(gettop)
