@@ -583,12 +583,29 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
 """ % bcb_dev)
 
   # Dump fingerprints
-  script.Print("Target: %s" % CalculateFingerprint(
-      oem_props, oem_dict, OPTIONS.info_dict))
+  #script.Print("Target: %s" % CalculateFingerprint(
+  #    oem_props, oem_dict, OPTIONS.info_dict))
 
   script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
   device_specific.FullOTA_InstallBegin()
-  
+
+  CopyInstallTools(output_zip)
+  script.UnpackPackageDir("install", "/tmp/install")
+  script.SetPermissionsRecursive("/tmp/install", 0, 0, 0755, 0644, None, None)
+  script.SetPermissionsRecursive("/tmp/install/bin", 0, 0, 0755, 0755, None, None)
+
+  script.Print("                                                  ")
+  script.Print("_________       __          __             ._")
+  script.Print("\__  __ /  _  _|__| _______/  |_  ____   __| |  ") 
+  script.Print("  |  | \ \/ \/ /  |/  ___/\   __\/ __ \ / __ |  ") 
+  script.Print("  |  |  \     /|  |\___ \  |  | \  ___// /_/ |  ")
+  script.Print("  |__|   \/\_/ |__/______> |__|  \_____>_____|  ")
+  script.Print("*********************************************************")
+  script.Print("---------------TWISTED ANDROID PROJECT-------------------")
+  script.Print(" * aow1980 * BrandenM * freak_97 * hellsgod * letmedanz *")
+  script.Print("*********************************************************")
+  script.Print("Running backup scripts and setting permissions...")
+
   if OPTIONS.backuptool:
     if block_based:
       common.ZipWriteStr(output_zip, "system/bin/backuptool.sh",
