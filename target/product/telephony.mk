@@ -23,6 +23,7 @@ PRODUCT_PACKAGES := \
     Dialer \
     CallLogBackup \
     InCallUI \
+    Stk \
     rild
 
 PRODUCT_COPY_FILES := \
