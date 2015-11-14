@@ -121,7 +121,7 @@ PRODUCT_PACKAGES += \
     vold \
     wm
 
-ifneq ($(filter uber_flounder uber_hammerhead uber_shamu,$(TARGET_PRODUCT)),)
+ifneq ($(filter twisted_flounder twisted_hammerhead twisted_shamu,$(TARGET_PRODUCT)),)
 PRODUCT_PACKAGES += \
     libdrmclearkeyplugin 
 endif
