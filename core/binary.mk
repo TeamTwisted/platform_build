@@ -137,6 +137,31 @@ endif
 endif
 #####
 
+###############
+# CORTEX_TUNINGS
+###############
+ifeq ($(CORTEX_TUNINGS),true)
+ifndef LOCAL_IS_HOST_MODULE
+ifneq (1,$(words $(filter $(LOCAL_DISABLE_CORTEX), $(LOCAL_MODULE))))
+ifdef LOCAL_CONLYFLAGS_64
+LOCAL_CONLYFLAGS_64 += \
+	$(CORTEX_FLAGS)
+else
+LOCAL_CONLYFLAGS_64 := \
+	$(CORTEX_FLAGS)
+endif
+ifdef LOCAL_CPPFLAGS_64
+LOCAL_CPPFLAGS_64 += \
+	$(CORTEX_FLAGS)
+else
+LOCAL_CPPFLAGS_64 := \
+	$(CORTEX_FLAGS)
+endif
+endif
+endif
+endif
+#####
+
 ################
 # ENABLE_GCCONLY
 ################
