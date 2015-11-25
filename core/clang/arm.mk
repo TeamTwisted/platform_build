@@ -33,9 +33,16 @@ CLANG_CONFIG_arm_UNKNOWN_CFLAGS := \
   -fno-move-loop-invariants \
   -fno-partial-inlining \
   -fno-strict-volatile-bitfields \
-  -fno-tree-copy-prop \
-  -fno-tree-loop-optimize \
-  -Wa,--noexecstack
+  -fno-align-jumps \
+  -Wa,--noexecstack \
+  -mfpu=neon-vfpv4 \
+  -Wno-unused-local-typedefs \
+  -fpredictive-commoning \
+  -ftree-loop-distribute-patterns \
+  -fvect-cost-model \
+  -ftree-partial-pre \
+  -fipa-cp-clone \
+  -mvectorize-with-neon-quad
 
 define subst-clang-incompatible-arm-flags
   $(subst -march=armv5te,-march=armv5t,\

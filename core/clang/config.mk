@@ -73,6 +73,34 @@ CLANG_CONFIG_UNKNOWN_CFLAGS := \
   -fno-tree-sra \
   -fprefetch-loop-arrays \
   -funswitch-loops \
+  -fgcse-after-reload \
+  -fgcse-las \
+  -fgcse-sm \
+  -fgraphite \
+  -fgraphite-identity \
+  -fipa-pta \
+  -fipa-cp \
+  -fipa-cp-clone \
+  -fipa-sra \
+  -fweb \
+  -floop-block \
+  -floop-interchange \
+  -floop-nest-optimize \
+  -floop-parallelize-all \
+  -ftree-parallelize-loops=4 \
+  -floop-strip-mine \
+  -fmodulo-sched \
+  -fmodulo-sched-allow-regmoves \
+  -frerun-cse-after-loop \
+  -frename-registers \
+  -fsection-anchors \
+  -ftree-loop-im \
+  -ftree-loop-ivcanon \
+  -fivopts \
+  -ftracer \
+  -mvectorize-with-neon-double \
+  -mvectorize-with-neon-quad \
+  -funsafe-loop-optimizations \
   -Werror=unused-but-set-parameter \
   -Werror=unused-but-set-variable \
   -Wmaybe-uninitialized \
