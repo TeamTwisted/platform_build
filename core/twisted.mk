@@ -105,7 +105,8 @@ LOCAL_DISABLE_STRICT := \
 	libc_nomalloc \
 	linker \
 	libnvvisualizer \
-	libskia
+	libskia \
+        libiprouteutil
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
@@ -132,7 +133,7 @@ LOCAL_FORCE_DISABLE_STRICT := \
 	linker \
 	libc_malloc \
 	libnvvisualizer \
-	libskia
+        libiprouteutil 
 
 DISABLE_STRICT := \
 	-fno-strict-aliasing
@@ -163,8 +164,6 @@ KRAIT_FLAGS := \
 # Cortex Tunings
 ###############
 LOCAL_DISABLE_CORTEX := \
-	libc_dns \
-	libc_tzcode \
 	bluetooth.default 
 
 CORTEX_FLAGS := \
