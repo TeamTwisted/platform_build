@@ -52,14 +52,10 @@ LOCAL_DISABLE_STRICT := \
 	libldnhncr \
 	libqcomvisualizer \
 	libvisualizer \
-	libstlport \
 	libutils \
 	libandroidfw \
 	dnsmasq \
 	static_busybox \
-	libwebviewchromium \
-	libwebviewchromium_loader \
-	libwebviewchromium_plat_support \
 	content_content_renderer_gyp \
 	third_party_WebKit_Source_modules_modules_gyp \
 	third_party_WebKit_Source_platform_blink_platform_gyp \
@@ -108,10 +104,9 @@ LOCAL_DISABLE_STRICT := \
         tcpdump \
 	libc_nomalloc \
 	linker \
-	sensors.flounder \
 	libnvvisualizer \
 	libskia \
-	libiprouteutil
+        libiprouteutil
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
@@ -137,10 +132,8 @@ LOCAL_FORCE_DISABLE_STRICT := \
 	libc_nomalloc \
 	linker \
 	libc_malloc \
-	sensors.flounder \
 	libnvvisualizer \
-	libskia \
-	libiprouteutil
+        libiprouteutil 
 
 DISABLE_STRICT := \
 	-fno-strict-aliasing
@@ -161,23 +154,29 @@ STRICT_CLANG_LEVEL := \
 LOCAL_DISABLE_KRAIT := \
 	libc_dns \
 	libc_tzcode \
-	bluetooth.default \
-	libwebviewchromium \
-	libwebviewchromium_loader \
-	libwebviewchromium_plat_support
+	bluetooth.default 
 
 KRAIT_FLAGS := \
 	-mcpu=cortex-a15 \
 	-mtune=cortex-a15
 
+###############
+# Cortex Tunings
+###############
+LOCAL_DISABLE_CORTEX := \
+	bluetooth.default 
+
+ifeq (arm,$(TARGET_ARCH))
+CORTEX_FLAGS := \
+        -mcpu=cortex-a57.cortex-a53 \
+        -mtune=cortex-a57.cortex-a53
+endif
+
 #############
 # GCC Tunings
 #############
 LOCAL_DISABLE_GCCONLY := \
-	bluetooth.default \
-	libwebviewchromium \
-	libwebviewchromium_loader \
-	libwebviewchromium_plat_support
+	bluetooth.default 
 
 ifeq (arm,$(TARGET_ARCH))
 GCC_ONLY := \
@@ -227,15 +226,12 @@ LOCAL_DISABLE_GRAPHITE := \
 	libstagefright_amrwbenc \
 	libpdfium \
 	libpdfiumcore \
-	libwebviewchromium \
-	libwebviewchromium_loader \
-	libwebviewchromium_plat_support \
 	libjni_filtershow_filters \
 	fio \
 	libwebrtc_spl \
 	libpcap \
 	libFraunhoferAAC \
-    libft2 \
+        libft2 \
 	libhwui
 
 GRAPHITE_FLAGS := \
