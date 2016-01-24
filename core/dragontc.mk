@@ -96,6 +96,11 @@ DISABLE_POLLY := \
   $(DISABLE_DTC) \
   $(LOCAL_DISABLE_POLLY)
 
+# Include ARM Mode if requested
+ifeq ($(USE_ARM_MODE),true)
+  include $(BUILD_SYSTEM)/arm.mk
+endif
+
 # Make sure that the current module is not blacklisted. Polly is not
 # used on host modules to reduce build time and unnecessary hassle.
 # Optimizations on host do not affect ROM performance anyways.
