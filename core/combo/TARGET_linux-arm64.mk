@@ -30,6 +30,10 @@
 # include defines, and compiler settings for the given architecture
 # version.
 #
+
+# ArchiDroid
+include $(BUILD_SYSTEM)/archidroid.mk
+
 ifeq ($(strip $(TARGET_ARCH_VARIANT)),)
 TARGET_ARCH_VARIANT := armv8
 endif
@@ -125,11 +129,16 @@ TARGET_GLOBAL_CPPFLAGS += -fvisibility-inlines-hidden
 # More flags/options can be added here
 TARGET_RELEASE_CFLAGS := \
 			-DNDEBUG \
-			-O2 -g \
+                        $(ARCHIDROID_GCC_CFLAGS_OPTI) \
 			-Wstrict-aliasing=2 \
 			-fgcse-after-reload \
 			-frerun-cse-after-loop \
 			-frename-registers
+
+TARGET_GLOBAL_CFLAGS += $(ARCHIDROID_GCC_CFLAGS)
+TARGET_GLOBAL_CFLAGS += $(ARCHIDROID_GCC_CFLAGS_64)
+TARGET_GLOBAL_CPPFLAGS += $(ARCHIDROID_GCC_CPPFLAGS)
+TARGET_GLOBAL_LDFLAGS += $(ARCHIDROID_GCC_LDFLAGS)
 
 libc_root := bionic/libc
 libm_root := bionic/libm

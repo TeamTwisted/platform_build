@@ -36,7 +36,7 @@ endif
 DISABLE_DTC_arm := \
 libvixl
 
-DISABLE_DTC_arm64 :=
+DISABLE_DTC_arm64 := \
 
 # Set DISABLE_DTC based on arch
 DISABLE_DTC := \

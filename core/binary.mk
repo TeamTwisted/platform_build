@@ -140,8 +140,6 @@ ifdef LOCAL_SDK_VERSION
   endif
 endif
 
-include $(BUILD_SYSTEM)/twisted.mk
-
 # MinGW spits out warnings about -fPIC even for -fpie?!) being ignored because
 # all code is position independent, and then those warnings get promoted to
 # errors.
@@ -1058,7 +1056,7 @@ installed_static_library_notice_file_targets := \
     $(foreach lib,$(my_static_libraries) $(my_whole_static_libraries), \
       NOTICE-$(if $(LOCAL_IS_HOST_MODULE),HOST,TARGET)-STATIC_LIBRARIES-$(lib))
 
-ifeq (,$(filter 5.2% 6.0%,$(TARGET_GCC_VERSION)))
+ifeq (,$(filter 5.3% 6.0%,$(TARGET_GCC_VERSION)))
 
   # Default is -fno-rtti.
   ifeq ($(strip $(LOCAL_RTTI_FLAG)),)
