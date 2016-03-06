@@ -33,8 +33,10 @@ ifeq ($(LLVM_PREBUILTS_VERSION),3.8 3.9)
 endif
 
 # Disable modules that don't work with DragonTC. Split up by arch.
-DISABLE_DTC_arm := libm
-DISABLE_DTC_arm64 := libm
+DISABLE_DTC_arm := \
+libvixl
+
+DISABLE_DTC_arm64 :=
 
 # Set DISABLE_DTC based on arch
 DISABLE_DTC := \
@@ -42,8 +44,11 @@ DISABLE_DTC := \
   $(LOCAL_DISABLE_DTC)
 
 # Enable DragonTC on GCC modules. Split up by arch.
-ENABLE_DTC_arm :=
-ENABLE_DTC_arm64 :=
+ENABLE_DTC_arm := \
+tremolo
+
+ENABLE_DTC_arm64 := \
+tremolo
 
 # Set ENABLE_DTC based on arch
 ENABLE_DTC := \
@@ -85,7 +90,7 @@ ifeq ($(LLVM_PREBUILTS_VERSION),3.8 3.9)
 	libLLVMTransformObjCARC \
 	libLLVMVectorize \
 	libgui \
-	libvixl
+	libvixl 
 endif
 
 # Set DISABLE_POLLY based on arch
