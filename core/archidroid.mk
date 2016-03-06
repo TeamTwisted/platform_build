@@ -15,14 +15,27 @@ ARCHIDROID_GCC_CFLAGS_THUMB := $(ARCHIDROID_GCC_CFLAGS_OPTI)
 ifneq (1,$(words $(filter $(DISABLE),$(LOCAL_MODULE))))
 ARCHIDROID_GCC_CFLAGS := $(ARCHIDROID_GCC_CFLAGS_OPTI)
 else
-ARCHIDROID_GCC_CFLAGS := $(ARCHIDROID_GCC_CFLAGS_OPTI) -fmodulo-sched -fmodulo-sched-allow-regmoves -ftree-parallelize-loops=8 -floop-parallelize-all -g0
+ARCHIDROID_GCC_CFLAGS := $(ARCHIDROID_GCC_CFLAGS_OPTI) -fmodulo-sched -fmodulo-sched-allow-regmoves -ftree-parallelize-loops=$(PRODUCT_THREADS) -floop-parallelize-all -g0 -fopenmp
+endif
+
+# Device threads
+ifeq ($(TARGET_DEVICE),shamu)
+PRODUCT_THREADS := 4
+endif
+
+ifeq ($(TARGET_DEVICE),angler)
+PRODUCT_THREADS := 8
+endif
+
+ifeq ($(TARGET_DEVICE),bullhead)
+PRODUCT_THREADS := 6
 endif
 
 DISABLE := \
 libvorbisidec
 
 # We also need to disable some warnings to not abort the build - those warning are not critical
-ARCHIDROID_GCC_CFLAGS += -Wno-error=array-bounds -Wno-error=clobbered -Wno-error=maybe-uninitialized -Wno-error=parentheses -Wno-error=strict-overflow -Wno-error=unused-variable
+ARCHIDROID_GCC_CFLAGS += -Wno-error=array-bounds -Wno-error=clobbered -Wno-error=maybe-uninitialized -Wno-error=parentheses -Wno-error=strict-overflow -Wno-error=unused-variable -Wno-error=error
 
 # Flags passed to linker (ld) of all C and C++ targets
 ARCHIDROID_GCC_LDFLAGS := -Wl,-O3 -Wl,--as-needed -Wl,--gc-sections -Wl,--relax -Wl,--sort-common
@@ -54,7 +67,11 @@ ARCHIDROID_GCC_CPPFLAGS := $(ARCHIDROID_GCC_CFLAGS)
 #####################
 
 # Flags passed to all C targets compiled with CLANG
-ARCHIDROID_CLANG_CFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option
+ifeq (arm64,$(strip $(TARGET_ARCH)))
+ARCHIDROID_CLANG_CFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option -mcpu=cortex-a57 -mcpu=cortex-a53 -mtune=cortex-a57 -mtune=cortex-a53
+else
+ARCHIDROID_CLANG_CFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option -mcpu=cortex-a15 -mtune=cortex-a15
+endif
 
 # Flags passed to CLANG preprocessor for C and C++
 ARCHIDROID_CLANG_CPPFLAGS := $(ARCHIDROID_CLANG_CFLAGS)
