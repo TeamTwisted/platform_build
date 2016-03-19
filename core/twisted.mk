@@ -166,11 +166,11 @@ KRAIT_FLAGS := \
 LOCAL_DISABLE_CORTEX := \
 	bluetooth.default 
 
-ifeq (arm,$(TARGET_ARCH))
 CORTEX_FLAGS := \
-        -mcpu=cortex-a57.cortex-a53 \
-        -mtune=cortex-a57.cortex-a53
-endif
+       -mcpu=cortex-a57 \
+       -mtune=cortex-a57 \
+       -mcpu=cortex-a53 \
+       -mtune=cortex-a53 
 
 #############
 # GCC Tunings
