@@ -34,9 +34,11 @@ endif
 
 # Disable modules that don't work with DragonTC. Split up by arch.
 DISABLE_DTC_arm := \
+libRSCpuRef \
+libRSSupport \
 libvixl
 
-DISABLE_DTC_arm64 :=
+DISABLE_DTC_arm64 := \
 
 # Set DISABLE_DTC based on arch
 DISABLE_DTC := \
@@ -44,11 +46,8 @@ DISABLE_DTC := \
   $(LOCAL_DISABLE_DTC)
 
 # Enable DragonTC on GCC modules. Split up by arch.
-ENABLE_DTC_arm := \
-tremolo
-
-ENABLE_DTC_arm64 := \
-tremolo
+ENABLE_DTC_arm := 
+ENABLE_DTC_arm64 := 
 
 # Set ENABLE_DTC based on arch
 ENABLE_DTC := \
@@ -57,6 +56,8 @@ ENABLE_DTC := \
 
 # Disable modules that dont work with Polly. Split up by arch.
 DISABLE_POLLY_arm := \
+libRSCpuRef \
+libRSSupport \
 libvixl
 
 DISABLE_POLLY_arm64 := \
