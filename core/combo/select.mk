@@ -21,6 +21,9 @@
 #	combo_2nd_arch_prefix -- it's defined if this is loaded for the 2nd arch.
 #
 
+# ArchiDroid
+include $(BUILD_SYSTEM)/archidroid.mk
+
 # Build a target string like "linux-arm" or "darwin-x86".
 combo_os_arch := $($(combo_target)OS)-$($(combo_target)$(combo_2nd_arch_prefix)ARCH)
 
@@ -33,7 +36,7 @@ $(combo_var_prefix)CXX := $(CXX)
 $(combo_var_prefix)AR := $(AR)
 $(combo_var_prefix)STRIP := $(STRIP)
 $(combo_var_prefix)GLOBAL_CFLAGS := -fno-exceptions -Wno-multichar
-$(combo_var_prefix)RELEASE_CFLAGS := -O2 -g
+$(combo_var_prefix)RELEASE_CFLAGS := $(ARCHIDROID_GCC_CFLAGS_OPTI) -fno-strict-aliasing
 $(combo_var_prefix)GLOBAL_CPPFLAGS :=
 $(combo_var_prefix)GLOBAL_LDFLAGS :=
 

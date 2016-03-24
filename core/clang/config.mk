@@ -1,10 +1,7 @@
 ## Clang configurations.
 
-# WITHOUT_CLANG covers both HOST and TARGET
-ifeq ($(WITHOUT_CLANG),true)
-WITHOUT_TARGET_CLANG := true
-WITHOUT_HOST_CLANG := true
-endif
+# ArchiDroid
+include $(BUILD_SYSTEM)/archidroid.mk
 
 # Set LLVM version for DragonTC
 TARGET_DRAGONTC_VERSION := 3.9
@@ -34,6 +31,10 @@ CLANG_CONFIG_EXTRA_CFLAGS :=
 CLANG_CONFIG_EXTRA_CONLYFLAGS := -std=gnu99
 CLANG_CONFIG_EXTRA_CPPFLAGS :=
 CLANG_CONFIG_EXTRA_LDFLAGS :=
+
+CLANG_CONFIG_EXTRA_CFLAGS += $(ARCHIDROID_CLANG_CFLAGS)
+CLANG_CONFIG_EXTRA_CPPFLAGS += $(ARCHIDROID_CLANG_CPPFLAGS)
+CLANG_CONFIG_EXTRA_LDFLAGS += $(ARCHIDROID_CLANG_LDFLAGS)
 
 CLANG_CONFIG_EXTRA_CFLAGS += \
   -D__compiler_offsetof=__builtin_offsetof
@@ -68,6 +69,7 @@ CLANG_CONFIG_EXTRA_CFLAGS += \
   -fcolor-diagnostics
 
 CLANG_CONFIG_UNKNOWN_CFLAGS := \
+  $(ARCHIDROID_CLANG_UNKNOWN_FLAGS) \
   -finline-functions \
   -finline-limit=64 \
   -fno-canonical-system-headers \

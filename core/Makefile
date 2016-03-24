@@ -2,6 +2,9 @@
 
 # Build system colors
 
+# ArchiDroid
+include $(BUILD_SYSTEM)/archidroid.mk
+
 ifneq ($(BUILD_WITH_COLORS),0)
   CL_RED="\033[31m"
   CL_GRN="\033[32m"
